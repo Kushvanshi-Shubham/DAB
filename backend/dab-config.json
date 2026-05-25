@@ -1,0 +1,2364 @@
+﻿{
+    "data-source":  {
+                        "database-type":  "mssql",
+                        "connection-string":  "@env(\u0027DATABASE_CONNECTION_STRING\u0027)",
+                        "options":  {
+                                        "set-session-context":  false
+                                    }
+                    },
+    "runtime":  {
+                    "host":  {
+                                 "mode":  "production",
+                                 "authentication":  {
+                                                        "provider":  "StaticWebApps"
+                                                    },
+                                 "cors":  {
+                                              "origins":  [
+                                                              "http://localhost:8888",
+                                                              "http://127.0.0.1:8888",
+                                                              "http://192.168.151.45:8034",
+                                                              "http://192.168.151.45:*"
+                                                          ],
+                                              "allow-credentials":  false
+                                          }
+                             },
+                    "rest":  {
+                                 "request-body-strict":  true,
+                                 "path":  "/api",
+                                 "enabled":  true
+                             },
+                    "graphql":  {
+                                    "path":  "/graphql",
+                                    "allow-introspection":  false,
+                                    "enabled":  false
+                                }
+                },
+    "$schema":  "https://github.com/Azure/data-api-builder/releases/download/v1.2.10/dab.draft.schema.json",
+    "entities":  {
+                     "Karma_Detailed_Report":  {
+                                                   "rest":  {
+                                                                "path":  "/Karma_Detailed_Report",
+                                                                "enabled":  true
+                                                            },
+                                                   "permissions":  [
+                                                                       {
+                                                                           "actions":  [
+                                                                                           "create",
+                                                                                           "read",
+                                                                                           "update",
+                                                                                           "delete"
+                                                                                       ],
+                                                                           "role":  "anonymous"
+                                                                       }
+                                                                   ],
+                                                   "source":  {
+                                                                  "key-fields":  [
+                                                                                     "EMP-ID"
+                                                                                 ],
+                                                                  "object":  "[dbo].[Karma_Detailed_Report]",
+                                                                  "type":  "table"
+                                                              },
+                                                   "graphql":  {
+                                                                   "enabled":  false
+                                                               }
+                                               },
+                     "INVT_ST_MJ_CAT_CLR_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/INVT_ST_MJ_CAT_CLR_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[INVT_ST_MJ_CAT_CLR_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "INVT_ST_MJ_CAT_MACRO_MVGR_AKA":  {
+                                                           "rest":  {
+                                                                        "path":  "/INVT_ST_MJ_CAT_MACRO_MVGR_AKA",
+                                                                        "enabled":  true
+                                                                    },
+                                                           "permissions":  [
+                                                                               {
+                                                                                   "actions":  [
+                                                                                                   "create",
+                                                                                                   "read",
+                                                                                                   "update",
+                                                                                                   "delete"
+                                                                                               ],
+                                                                                   "role":  "anonymous"
+                                                                               }
+                                                                           ],
+                                                           "source":  {
+                                                                          "object":  "[dbo].[INVT_ST_MJ_CAT_MACRO_MVGR_AKA]",
+                                                                          "type":  "table"
+                                                                      },
+                                                           "graphql":  {
+                                                                           "enabled":  false
+                                                                       }
+                                                       },
+                     "ET_ZMC_SIZE_MASTER_RFC":  {
+                                                    "rest":  {
+                                                                 "path":  "/ET_ZMC_SIZE_MASTER_RFC",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "key-fields":  [
+                                                                                      "ID"
+                                                                                  ],
+                                                                   "object":  "[dbo].[ET_ZMC_SIZE_MASTER_RFC]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "Issue_Tracker":  {
+                                           "rest":  {
+                                                        "path":  "/Issue_Tracker",
+                                                        "enabled":  true
+                                                    },
+                                           "permissions":  [
+                                                               {
+                                                                   "actions":  [
+                                                                                   "create",
+                                                                                   "read",
+                                                                                   "update",
+                                                                                   "delete"
+                                                                               ],
+                                                                   "role":  "anonymous"
+                                                               }
+                                                           ],
+                                           "source":  {
+                                                          "key-fields":  [
+                                                                             "Issue #"
+                                                                         ],
+                                                          "object":  "[dbo].[Issue_Tracker]",
+                                                          "type":  "table"
+                                                      },
+                                           "graphql":  {
+                                                           "enabled":  false
+                                                       }
+                                       },
+                     "DA_ARTICLE_Sheet1":  {
+                                               "rest":  {
+                                                            "path":  "/DA_ARTICLE_Sheet1",
+                                                            "enabled":  true
+                                                        },
+                                               "permissions":  [
+                                                                   {
+                                                                       "actions":  [
+                                                                                       "create",
+                                                                                       "read",
+                                                                                       "update",
+                                                                                       "delete"
+                                                                                   ],
+                                                                       "role":  "anonymous"
+                                                                   }
+                                                               ],
+                                               "source":  {
+                                                              "object":  "[dbo].[DA_ARTICLE_Sheet1]",
+                                                              "type":  "table"
+                                                          },
+                                               "graphql":  {
+                                                               "enabled":  false
+                                                           }
+                                           },
+                     "INVT_ST_MJ_CAT_SIZE_AKA":  {
+                                                     "rest":  {
+                                                                  "path":  "/INVT_ST_MJ_CAT_SIZE_AKA",
+                                                                  "enabled":  true
+                                                              },
+                                                     "permissions":  [
+                                                                         {
+                                                                             "actions":  [
+                                                                                             "create",
+                                                                                             "read",
+                                                                                             "update",
+                                                                                             "delete"
+                                                                                         ],
+                                                                             "role":  "anonymous"
+                                                                         }
+                                                                     ],
+                                                     "source":  {
+                                                                    "object":  "[dbo].[INVT_ST_MJ_CAT_SIZE_AKA]",
+                                                                    "type":  "table"
+                                                                },
+                                                     "graphql":  {
+                                                                     "enabled":  false
+                                                                 }
+                                                 },
+                     "Bills":  {
+                                   "rest":  {
+                                                "path":  "/Bills",
+                                                "enabled":  true
+                                            },
+                                   "permissions":  [
+                                                       {
+                                                           "actions":  [
+                                                                           "create",
+                                                                           "read",
+                                                                           "update",
+                                                                           "delete"
+                                                                       ],
+                                                           "role":  "anonymous"
+                                                       }
+                                                   ],
+                                   "source":  {
+                                                  "object":  "[dbo].[Bills]",
+                                                  "type":  "table"
+                                              },
+                                   "graphql":  {
+                                                   "enabled":  false
+                                               }
+                               },
+                     "CO_BGT_AK_CO_MJ_FAB_ALL_BGT_AKA":  {
+                                                             "rest":  {
+                                                                          "path":  "/CO_BGT_AK_CO_MJ_FAB_ALL_BGT_AKA",
+                                                                          "enabled":  true
+                                                                      },
+                                                             "permissions":  [
+                                                                                 {
+                                                                                     "actions":  [
+                                                                                                     "create",
+                                                                                                     "read",
+                                                                                                     "update",
+                                                                                                     "delete"
+                                                                                                 ],
+                                                                                     "role":  "anonymous"
+                                                                                 }
+                                                                             ],
+                                                             "source":  {
+                                                                            "key-fields":  [
+                                                                                               "ID"
+                                                                                           ],
+                                                                            "object":  "[dbo].[CO_BGT_AK_CO_MJ_FAB_ALL_BGT_AKA]",
+                                                                            "type":  "table"
+                                                                        },
+                                                             "graphql":  {
+                                                                             "enabled":  false
+                                                                         }
+                                                         },
+                     "VIEW_SALE_GEN_CLR_ART_WISE":  {
+                                                        "rest":  {
+                                                                     "path":  "/VIEW_SALE_GEN_CLR_ART_WISE",
+                                                                     "enabled":  true
+                                                                 },
+                                                        "permissions":  [
+                                                                            {
+                                                                                "actions":  [
+                                                                                                "create",
+                                                                                                "read",
+                                                                                                "update",
+                                                                                                "delete"
+                                                                                            ],
+                                                                                "role":  "anonymous"
+                                                                            }
+                                                                        ],
+                                                        "source":  {
+                                                                       "object":  "[dbo].[DY_SALE_DATA_GEN_ART_WISE]",
+                                                                       "type":  "table"
+                                                                   },
+                                                        "graphql":  {
+                                                                        "enabled":  false
+                                                                    }
+                                                    },
+                     "ET_ZFBL1N_PAYMENT_RFC":  {
+                                                   "rest":  {
+                                                                "path":  "/ET_ZFBL1N_PAYMENT_RFC",
+                                                                "enabled":  true
+                                                            },
+                                                   "permissions":  [
+                                                                       {
+                                                                           "actions":  [
+                                                                                           "create",
+                                                                                           "read",
+                                                                                           "update",
+                                                                                           "delete"
+                                                                                       ],
+                                                                           "role":  "anonymous"
+                                                                       }
+                                                                   ],
+                                                   "source":  {
+                                                                  "object":  "[dbo].[ET_ZFBL1N_PAYMENT_RFC]",
+                                                                  "type":  "table"
+                                                              },
+                                                   "graphql":  {
+                                                                   "enabled":  false
+                                                               }
+                                               },
+                     "vw_ET_ART_Broader_Menu_DATA_NEW":  {
+                                                             "rest":  {
+                                                                          "path":  "/vw_ET_ART_Broader_Menu_DATA_NEW",
+                                                                          "enabled":  true
+                                                                      },
+                                                             "permissions":  [
+                                                                                 {
+                                                                                     "actions":  [
+                                                                                                     "create",
+                                                                                                     "read",
+                                                                                                     "update",
+                                                                                                     "delete"
+                                                                                                 ],
+                                                                                     "role":  "anonymous"
+                                                                                 }
+                                                                             ],
+                                                             "source":  {
+                                                                            "key-fields":  [
+                                                                                               "ID"
+                                                                                           ],
+                                                                            "object":  "[dbo].[vw_ET_ART_Broader_Menu_DATA_NEW]",
+                                                                            "type":  "view"
+                                                                        },
+                                                             "graphql":  {
+                                                                             "enabled":  false
+                                                                         }
+                                                         },
+                     "ET_ZPO_MODIFICATION_RFC_AKA":  {
+                                                         "rest":  {
+                                                                      "path":  "/ET_ZPO_MODIFICATION_RFC_AKA",
+                                                                      "enabled":  true
+                                                                  },
+                                                         "permissions":  [
+                                                                             {
+                                                                                 "actions":  [
+                                                                                                 "create",
+                                                                                                 "read",
+                                                                                                 "update",
+                                                                                                 "delete"
+                                                                                             ],
+                                                                                 "role":  "anonymous"
+                                                                             }
+                                                                         ],
+                                                         "source":  {
+                                                                        "object":  "[dbo].[ET_ZPO_MODIFICATION_RFC_AKA]",
+                                                                        "type":  "table"
+                                                                    },
+                                                         "graphql":  {
+                                                                         "enabled":  false
+                                                                     }
+                                                     },
+                     "BROADER_MENU":  {
+                                          "rest":  {
+                                                       "path":  "/BROADER_MENU",
+                                                       "enabled":  true
+                                                   },
+                                          "permissions":  [
+                                                              {
+                                                                  "actions":  [
+                                                                                  "create",
+                                                                                  "read",
+                                                                                  "update",
+                                                                                  "delete"
+                                                                              ],
+                                                                  "role":  "anonymous"
+                                                              }
+                                                          ],
+                                          "source":  {
+                                                         "key-fields":  [
+                                                                            "ID"
+                                                                        ],
+                                                         "object":  "[dbo].vw_BROADER_MENU_DATA",
+                                                         "type":  "view"
+                                                     },
+                                          "graphql":  {
+                                                          "enabled":  false
+                                                      }
+                                      },
+                     "VW_ET_SALES_ST_GEN_CLR_DATA_AKA":  {
+                                                             "rest":  {
+                                                                          "path":  "/VW_ET_SALES_ST_GEN_CLR_DATA_AKA",
+                                                                          "enabled":  true
+                                                                      },
+                                                             "permissions":  [
+                                                                                 {
+                                                                                     "actions":  [
+                                                                                                     "create",
+                                                                                                     "read",
+                                                                                                     "update",
+                                                                                                     "delete"
+                                                                                                 ],
+                                                                                     "role":  "anonymous"
+                                                                                 }
+                                                                             ],
+                                                             "source":  {
+                                                                            "key-fields":  [
+                                                                                               "COLOR-CODE"
+                                                                                           ],
+                                                                            "object":  "[dbo].[VW_ET_SALES_ST_GEN_CLR_DATA_AKA]",
+                                                                            "type":  "view"
+                                                                        },
+                                                             "graphql":  {
+                                                                             "enabled":  false
+                                                                         }
+                                                         },
+                     "VW_LYSP_DAY_MAPPING":  {
+                                                 "rest":  {
+                                                              "path":  "/VW_LYSP_DAY_MAPPING",
+                                                              "enabled":  true
+                                                          },
+                                                 "permissions":  [
+                                                                     {
+                                                                         "actions":  [
+                                                                                         "create",
+                                                                                         "read",
+                                                                                         "update",
+                                                                                         "delete"
+                                                                                     ],
+                                                                         "role":  "anonymous"
+                                                                     }
+                                                                 ],
+                                                 "source":  {
+                                                                "key-fields":  [
+                                                                                   "ID"
+                                                                               ],
+                                                                "object":  "[dbo].[VW_LYSP_DAY_MAPPING]",
+                                                                "type":  "view"
+                                                            },
+                                                 "graphql":  {
+                                                                 "enabled":  false
+                                                             }
+                                             },
+                     "ET_Supplier_Master":  {
+                                                "rest":  {
+                                                             "path":  "/ET_Supplier_Master",
+                                                             "enabled":  true
+                                                         },
+                                                "permissions":  [
+                                                                    {
+                                                                        "actions":  [
+                                                                                        "create",
+                                                                                        "read",
+                                                                                        "update",
+                                                                                        "delete"
+                                                                                    ],
+                                                                        "role":  "anonymous"
+                                                                    }
+                                                                ],
+                                                "source":  {
+                                                               "object":  "[dbo].[DY_SUPPLIER_MST]",
+                                                               "type":  "table"
+                                                           },
+                                                "graphql":  {
+                                                                "enabled":  false
+                                                            }
+                                            },
+                     "CO_BGT_AK_ST_MJ_ALL_BGT":  {
+                                                     "rest":  {
+                                                                  "path":  "/CO_BGT_AK_ST_MJ_ALL_BGT",
+                                                                  "enabled":  true
+                                                              },
+                                                     "permissions":  [
+                                                                         {
+                                                                             "actions":  [
+                                                                                             "create",
+                                                                                             "read",
+                                                                                             "update",
+                                                                                             "delete"
+                                                                                         ],
+                                                                             "role":  "anonymous"
+                                                                         }
+                                                                     ],
+                                                     "source":  {
+                                                                    "object":  "[dbo].[CO_BGT_AK_ST_MJ_ALL_BGT]",
+                                                                    "type":  "table"
+                                                                },
+                                                     "graphql":  {
+                                                                     "enabled":  false
+                                                                 }
+                                                 },
+                     "ET_ZADVANCE_PAYMENT":  {
+                                                 "rest":  {
+                                                              "path":  "/ET_ZADVANCE_PAYMENT",
+                                                              "enabled":  true
+                                                          },
+                                                 "permissions":  [
+                                                                     {
+                                                                         "actions":  [
+                                                                                         "create",
+                                                                                         "read",
+                                                                                         "update",
+                                                                                         "delete"
+                                                                                     ],
+                                                                         "role":  "anonymous"
+                                                                     }
+                                                                 ],
+                                                 "source":  {
+                                                                "key-fields":  [
+                                                                                   "ID"
+                                                                               ],
+                                                                "object":  "[dbo].[ET_ZADVANCE_PAYMENT]",
+                                                                "type":  "table"
+                                                            },
+                                                 "graphql":  {
+                                                                 "enabled":  false
+                                                             }
+                                             },
+                     "Karma_Summary_Report":  {
+                                                  "rest":  {
+                                                               "path":  "/Karma_Summary_Report",
+                                                               "enabled":  true
+                                                           },
+                                                  "permissions":  [
+                                                                      {
+                                                                          "actions":  [
+                                                                                          "create",
+                                                                                          "read",
+                                                                                          "update",
+                                                                                          "delete"
+                                                                                      ],
+                                                                          "role":  "anonymous"
+                                                                      }
+                                                                  ],
+                                                  "source":  {
+                                                                 "key-fields":  [
+                                                                                    "Emp Code"
+                                                                                ],
+                                                                 "object":  "[dbo].[Karma_Summary_Report]",
+                                                                 "type":  "table"
+                                                             },
+                                                  "graphql":  {
+                                                                  "enabled":  false
+                                                              }
+                                              },
+                     "ET_ZART_BAR_DETAIL_RFC":  {
+                                                    "rest":  {
+                                                                 "path":  "/ET_ZART_BAR_DETAIL_RFC",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "key-fields":  [
+                                                                                      "id"
+                                                                                  ],
+                                                                   "object":  "[dbo].[ET_ZART_BAR_DETAIL_RFC]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "API_Master_AKA":  {
+                                            "rest":  {
+                                                         "path":  "/API_Master_AKA",
+                                                         "enabled":  true
+                                                     },
+                                            "permissions":  [
+                                                                {
+                                                                    "actions":  [
+                                                                                    "create",
+                                                                                    "read",
+                                                                                    "update",
+                                                                                    "delete"
+                                                                                ],
+                                                                    "role":  "anonymous"
+                                                                }
+                                                            ],
+                                            "source":  {
+                                                           "object":  "[dbo].[API_Master_AKA]",
+                                                           "type":  "table"
+                                                       },
+                                            "graphql":  {
+                                                            "enabled":  false
+                                                        }
+                                        },
+                     "MSA_STOCK_DATA_AKA":  {
+                                                "rest":  {
+                                                             "path":  "/MSA_STOCK_DATA_AKA",
+                                                             "enabled":  true
+                                                         },
+                                                "permissions":  [
+                                                                    {
+                                                                        "actions":  [
+                                                                                        "create",
+                                                                                        "read",
+                                                                                        "update",
+                                                                                        "delete"
+                                                                                    ],
+                                                                        "role":  "anonymous"
+                                                                    }
+                                                                ],
+                                                "source":  {
+                                                               "object":  "[dbo].[MSA_STOCK_DATA_AKA]",
+                                                               "type":  "table"
+                                                           },
+                                                "graphql":  {
+                                                                "enabled":  false
+                                                            }
+                                            },
+                     "INVT_DC_MJ_CAT_VND_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/INVT_DC_MJ_CAT_VND_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[INVT_DC_MJ_CAT_VND_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "TNA_REPORT":  {
+                                        "rest":  {
+                                                     "path":  "/TNA_REPORT",
+                                                     "enabled":  true
+                                                 },
+                                        "permissions":  [
+                                                            {
+                                                                "actions":  [
+                                                                                "create",
+                                                                                "read",
+                                                                                "update",
+                                                                                "delete"
+                                                                            ],
+                                                                "role":  "anonymous"
+                                                            }
+                                                        ],
+                                        "source":  {
+                                                       "key-fields":  [
+                                                                          "zone_id"
+                                                                      ],
+                                                       "object":  "[dbo].[TNA_REPORT]",
+                                                       "type":  "table"
+                                                   },
+                                        "graphql":  {
+                                                        "enabled":  false
+                                                    }
+                                    },
+                     "Product_Master":  {
+                                            "rest":  {
+                                                         "path":  "/Product_Master",
+                                                         "enabled":  true
+                                                     },
+                                            "permissions":  [
+                                                                {
+                                                                    "actions":  [
+                                                                                    "create",
+                                                                                    "read",
+                                                                                    "update",
+                                                                                    "delete"
+                                                                                ],
+                                                                    "role":  "anonymous"
+                                                                }
+                                                            ],
+                                            "source":  {
+                                                           "key-fields":  [
+                                                                              "ID"
+                                                                          ],
+                                                           "object":  "[dbo].[VW_PRODUCT_MST_NEW]",
+                                                           "type":  "view"
+                                                       },
+                                            "graphql":  {
+                                                            "enabled":  false
+                                                        }
+                                        },
+                     "DAILY_SALE_DATA_GEN_CLR_WISE":  {
+                                                          "rest":  {
+                                                                       "path":  "/DAILY_SALE_DATA_GEN_CLR_WISE",
+                                                                       "enabled":  true
+                                                                   },
+                                                          "permissions":  [
+                                                                              {
+                                                                                  "actions":  [
+                                                                                                  "create",
+                                                                                                  "read",
+                                                                                                  "update",
+                                                                                                  "delete"
+                                                                                              ],
+                                                                                  "role":  "anonymous"
+                                                                              }
+                                                                          ],
+                                                          "source":  {
+                                                                         "object":  "[dbo].[DAILY_SALE_DATA_GEN_CLR_WISE]",
+                                                                         "type":  "table"
+                                                                     },
+                                                          "graphql":  {
+                                                                          "enabled":  false
+                                                                      }
+                                                      },
+                     "ET_PUR_DATA_RPT_AKA":  {
+                                                 "rest":  {
+                                                              "path":  "/ET_PUR_DATA_RPT_AKA",
+                                                              "enabled":  true
+                                                          },
+                                                 "permissions":  [
+                                                                     {
+                                                                         "actions":  [
+                                                                                         "create",
+                                                                                         "read",
+                                                                                         "update",
+                                                                                         "delete"
+                                                                                     ],
+                                                                         "role":  "anonymous"
+                                                                     }
+                                                                 ],
+                                                 "source":  {
+                                                                "object":  "[dbo].[ET_PUR_DATA_RPT_AKA]",
+                                                                "type":  "table"
+                                                            },
+                                                 "graphql":  {
+                                                                 "enabled":  false
+                                                             }
+                                             },
+                     "SZ_GROUP_VAR_ARTICLE":  {
+                                                  "rest":  {
+                                                               "path":  "/SZ_GROUP_VAR_ARTICLE",
+                                                               "enabled":  true
+                                                           },
+                                                  "permissions":  [
+                                                                      {
+                                                                          "actions":  [
+                                                                                          "create",
+                                                                                          "read",
+                                                                                          "update",
+                                                                                          "delete"
+                                                                                      ],
+                                                                          "role":  "anonymous"
+                                                                      }
+                                                                  ],
+                                                  "source":  {
+                                                                 "key-fields":  [
+                                                                                    "ID"
+                                                                                ],
+                                                                 "object":  "[dbo].[SZ_GROUP_VAR_ARTICLE]",
+                                                                 "type":  "table"
+                                                             },
+                                                  "graphql":  {
+                                                                  "enabled":  false
+                                                              }
+                                              },
+                     "Store_plant_master_aka":  {
+                                                    "rest":  {
+                                                                 "path":  "/STORE_PLANT_MASTER_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[STORE_PLANT_MASTER_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "CO_BGT_AK_ST_MJ_CLR_ALL_BGT":  {
+                                                         "rest":  {
+                                                                      "path":  "/CO_BGT_AK_ST_MJ_CLR_ALL_BGT",
+                                                                      "enabled":  true
+                                                                  },
+                                                         "permissions":  [
+                                                                             {
+                                                                                 "actions":  [
+                                                                                                 "create",
+                                                                                                 "read",
+                                                                                                 "update",
+                                                                                                 "delete"
+                                                                                             ],
+                                                                                 "role":  "anonymous"
+                                                                             }
+                                                                         ],
+                                                         "source":  {
+                                                                        "object":  "[dbo].CO_BGT_AK_ST_MJ_CLR_ALL_BGT",
+                                                                        "type":  "table"
+                                                                    },
+                                                         "graphql":  {
+                                                                         "enabled":  false
+                                                                     }
+                                                     },
+                     "INVT_ST_MJ_CAT_FAB_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/INVT_ST_MJ_CAT_FAB_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[INVT_ST_MJ_CAT_FAB_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "CO_BGT_AK_CO_MJ_CLR_ALL_BGT":  {
+                                                         "rest":  {
+                                                                      "path":  "/CO_BGT_AK_CO_MJ_CLR_ALL_BGT",
+                                                                      "enabled":  true
+                                                                  },
+                                                         "permissions":  [
+                                                                             {
+                                                                                 "actions":  [
+                                                                                                 "create",
+                                                                                                 "read",
+                                                                                                 "update",
+                                                                                                 "delete"
+                                                                                             ],
+                                                                                 "role":  "anonymous"
+                                                                             }
+                                                                         ],
+                                                         "source":  {
+                                                                        "object":  "[dbo].CO_BGT_AK_CO_MJ_CLR_ALL_BGT",
+                                                                        "type":  "table"
+                                                                    },
+                                                         "graphql":  {
+                                                                         "enabled":  false
+                                                                     }
+                                                     },
+                     "VW_STORE_GEN_VAR_ART_COL_INVENTORY_AKA":  {
+                                                                    "rest":  {
+                                                                                 "path":  "/VW_STORE_GEN_VAR_ART_COL_INVENTORY_AKA",
+                                                                                 "enabled":  true
+                                                                             },
+                                                                    "permissions":  [
+                                                                                        {
+                                                                                            "actions":  [
+                                                                                                            "create",
+                                                                                                            "read",
+                                                                                                            "update",
+                                                                                                            "delete"
+                                                                                                        ],
+                                                                                            "role":  "anonymous"
+                                                                                        }
+                                                                                    ],
+                                                                    "source":  {
+                                                                                   "key-fields":  [
+                                                                                                      "ID"
+                                                                                                  ],
+                                                                                   "object":  "[dbo].[VW_STORE_GEN_VAR_ART_COL_INVENTORY_AKA]",
+                                                                                   "type":  "view"
+                                                                               },
+                                                                    "graphql":  {
+                                                                                    "enabled":  false
+                                                                                }
+                                                                },
+                     "SALE_DATA_CM_AKA":  {
+                                              "rest":  {
+                                                           "path":  "/SALE_DATA_CM_AKA",
+                                                           "enabled":  true
+                                                       },
+                                              "permissions":  [
+                                                                  {
+                                                                      "actions":  [
+                                                                                      "create",
+                                                                                      "read",
+                                                                                      "update",
+                                                                                      "delete"
+                                                                                  ],
+                                                                      "role":  "anonymous"
+                                                                  }
+                                                              ],
+                                              "source":  {
+                                                             "object":  "[dbo].SALE_DATA_CM_AKA",
+                                                             "type":  "table"
+                                                         },
+                                              "graphql":  {
+                                                              "enabled":  false
+                                                          }
+                                          },
+                     "DAILY_SALE_DATA_GEN_ART_WISE":  {
+                                                          "rest":  {
+                                                                       "path":  "/DAILY_SALE_DATA_GEN_ART_WISE",
+                                                                       "enabled":  true
+                                                                   },
+                                                          "permissions":  [
+                                                                              {
+                                                                                  "actions":  [
+                                                                                                  "create",
+                                                                                                  "read",
+                                                                                                  "update",
+                                                                                                  "delete"
+                                                                                              ],
+                                                                                  "role":  "anonymous"
+                                                                              }
+                                                                          ],
+                                                          "source":  {
+                                                                         "object":  "[dbo].[DY_DAILY_SALE_DATA_GEN_ART_WISE]",
+                                                                         "type":  "table"
+                                                                     },
+                                                          "graphql":  {
+                                                                          "enabled":  false
+                                                                      }
+                                                      },
+                     "C_ART_DATA":  {
+                                        "rest":  {
+                                                     "path":  "/C_ART_DATA",
+                                                     "enabled":  true
+                                                 },
+                                        "permissions":  [
+                                                            {
+                                                                "actions":  [
+                                                                                "create",
+                                                                                "read",
+                                                                                "update",
+                                                                                "delete"
+                                                                            ],
+                                                                "role":  "anonymous"
+                                                            }
+                                                        ],
+                                        "source":  {
+                                                       "object":  "[dbo].[C_ART_DATA]",
+                                                       "type":  "table"
+                                                   },
+                                        "graphql":  {
+                                                        "enabled":  false
+                                                    }
+                                    },
+                     "PO_DATA_AKA":  {
+                                         "rest":  {
+                                                      "path":  "/PO_DATA_AKA",
+                                                      "enabled":  true
+                                                  },
+                                         "permissions":  [
+                                                             {
+                                                                 "actions":  [
+                                                                                 "create",
+                                                                                 "read",
+                                                                                 "update",
+                                                                                 "delete"
+                                                                             ],
+                                                                 "role":  "anonymous"
+                                                             }
+                                                         ],
+                                         "source":  {
+                                                        "object":  "[dbo].[PO_DATA_AKA]",
+                                                        "type":  "table"
+                                                    },
+                                         "graphql":  {
+                                                         "enabled":  false
+                                                     }
+                                     },
+                     "L_VAR_ARTICLE":  {
+                                           "rest":  {
+                                                        "path":  "/L_VAR_ARTICLE",
+                                                        "enabled":  true
+                                                    },
+                                           "permissions":  [
+                                                               {
+                                                                   "actions":  [
+                                                                                   "create",
+                                                                                   "read",
+                                                                                   "update",
+                                                                                   "delete"
+                                                                               ],
+                                                                   "role":  "anonymous"
+                                                               }
+                                                           ],
+                                           "source":  {
+                                                          "key-fields":  [
+                                                                             "ID"
+                                                                         ],
+                                                          "object":  "[dbo].[L_VAR_ARTICLE]",
+                                                          "type":  "table"
+                                                      },
+                                           "graphql":  {
+                                                           "enabled":  false
+                                                       }
+                                       },
+                     "COMPANY_STOCK_GEN_ART_CLR_MASTER_AKA":  {
+                                                                  "rest":  {
+                                                                               "path":  "/COMPANY_STOCK_GEN_ART_CLR_MASTER_AKA",
+                                                                               "enabled":  true
+                                                                           },
+                                                                  "permissions":  [
+                                                                                      {
+                                                                                          "actions":  [
+                                                                                                          "create",
+                                                                                                          "read",
+                                                                                                          "update",
+                                                                                                          "delete"
+                                                                                                      ],
+                                                                                          "role":  "anonymous"
+                                                                                      }
+                                                                                  ],
+                                                                  "source":  {
+                                                                                 "object":  "[dbo].[COMPANY_STOCK_GEN_ART_CLR_MASTER_AKA]",
+                                                                                 "type":  "table"
+                                                                             },
+                                                                  "graphql":  {
+                                                                                  "enabled":  false
+                                                                              }
+                                                              },
+                     "VW_GRC_REPORT_NEW":  {
+                                               "rest":  {
+                                                            "path":  "/VW_GRC_REPORT_NEW",
+                                                            "enabled":  true
+                                                        },
+                                               "permissions":  [
+                                                                   {
+                                                                       "actions":  [
+                                                                                       "create",
+                                                                                       "read",
+                                                                                       "update",
+                                                                                       "delete"
+                                                                                   ],
+                                                                       "role":  "anonymous"
+                                                                   }
+                                                               ],
+                                               "source":  {
+                                                              "key-fields":  [
+                                                                                 "ID"
+                                                                             ],
+                                                              "object":  "[dbo].[VW_GRC_REPORT_NEW]",
+                                                              "type":  "view"
+                                                          },
+                                               "graphql":  {
+                                                               "enabled":  false
+                                                           }
+                                           },
+                     "MRDC_VAR_ART_AKA":  {
+                                              "rest":  {
+                                                           "path":  "/MRDC_VAR_ART_AKA",
+                                                           "enabled":  true
+                                                       },
+                                              "permissions":  [
+                                                                  {
+                                                                      "actions":  [
+                                                                                      "create",
+                                                                                      "read",
+                                                                                      "update",
+                                                                                      "delete"
+                                                                                  ],
+                                                                      "role":  "anonymous"
+                                                                  }
+                                                              ],
+                                              "source":  {
+                                                             "key-fields":  [
+                                                                                "ID"
+                                                                            ],
+                                                             "object":  "[dbo].[MRDC_VAR_ART_AKA]",
+                                                             "type":  "table"
+                                                         },
+                                              "graphql":  {
+                                                              "enabled":  false
+                                                          }
+                                          },
+                     "L_12_GEN_ART_SALE_DATA_AKA":  {
+                                                        "rest":  {
+                                                                     "path":  "/L_12_GEN_ART_SALE_DATA_AKA",
+                                                                     "enabled":  true
+                                                                 },
+                                                        "permissions":  [
+                                                                            {
+                                                                                "actions":  [
+                                                                                                "create",
+                                                                                                "read",
+                                                                                                "update",
+                                                                                                "delete"
+                                                                                            ],
+                                                                                "role":  "anonymous"
+                                                                            }
+                                                                        ],
+                                                        "source":  {
+                                                                       "key-fields":  [
+                                                                                          "ID"
+                                                                                      ],
+                                                                       "object":  "[dbo].[L_12_GEN_ART_SALE_DATA_AKA]",
+                                                                       "type":  "table"
+                                                                   },
+                                                        "graphql":  {
+                                                                        "enabled":  false
+                                                                    }
+                                                    },
+                     "VW_PRODUCT_BARCODE_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/VW_PRODUCT_BARCODE_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "key-fields":  [
+                                                                                      "ARTICLE_NUMBER"
+                                                                                  ],
+                                                                   "object":  "[dbo].[VW_PRODUCT_BARCODE_AKA]",
+                                                                   "type":  "view"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "ET_ZFI_PI_DATA_RFC":  {
+                                                "rest":  {
+                                                             "path":  "/ET_ZFI_PI_DATA_RFC",
+                                                             "enabled":  true
+                                                         },
+                                                "permissions":  [
+                                                                    {
+                                                                        "actions":  [
+                                                                                        "create",
+                                                                                        "read",
+                                                                                        "update",
+                                                                                        "delete"
+                                                                                    ],
+                                                                        "role":  "anonymous"
+                                                                    }
+                                                                ],
+                                                "source":  {
+                                                               "object":  "[dbo].[ET_ZFI_PI_DATA_RFC]",
+                                                               "type":  "table"
+                                                           },
+                                                "graphql":  {
+                                                                "enabled":  false
+                                                            }
+                                            },
+                     "INVT_DC_MJ_AKA":  {
+                                            "rest":  {
+                                                         "path":  "/INVT_DC_MJ_AKA",
+                                                         "enabled":  true
+                                                     },
+                                            "permissions":  [
+                                                                {
+                                                                    "actions":  [
+                                                                                    "create",
+                                                                                    "read",
+                                                                                    "update",
+                                                                                    "delete"
+                                                                                ],
+                                                                    "role":  "anonymous"
+                                                                }
+                                                            ],
+                                            "source":  {
+                                                           "object":  "[dbo].[INVT_DC_MJ_AKA]",
+                                                           "type":  "table"
+                                                       },
+                                            "graphql":  {
+                                                            "enabled":  false
+                                                        }
+                                        },
+                     "vw_PO_PENDING_New":  {
+                                               "rest":  {
+                                                            "path":  "/vw_PO_PENDING_New",
+                                                            "enabled":  true
+                                                        },
+                                               "permissions":  [
+                                                                   {
+                                                                       "actions":  [
+                                                                                       "create",
+                                                                                       "read",
+                                                                                       "update",
+                                                                                       "delete"
+                                                                                   ],
+                                                                       "role":  "anonymous"
+                                                                   }
+                                                               ],
+                                               "source":  {
+                                                              "key-fields":  [
+                                                                                 "ID"
+                                                                             ],
+                                                              "object":  "[dbo].[vw_PO_PENDING_New]",
+                                                              "type":  "view"
+                                                          },
+                                               "graphql":  {
+                                                               "enabled":  false
+                                                           }
+                                           },
+                     "CO_BGT_AK_CO_MJ_VND_ALL_BGT_AKA":  {
+                                                             "rest":  {
+                                                                          "path":  "/CO_BGT_AK_CO_MJ_VND_ALL_BGT_AKA",
+                                                                          "enabled":  true
+                                                                      },
+                                                             "permissions":  [
+                                                                                 {
+                                                                                     "actions":  [
+                                                                                                     "create",
+                                                                                                     "read",
+                                                                                                     "update",
+                                                                                                     "delete"
+                                                                                                 ],
+                                                                                     "role":  "anonymous"
+                                                                                 }
+                                                                             ],
+                                                             "source":  {
+                                                                            "object":  "[dbo].[CO_BGT_AK_CO_MJ_VND_ALL_BGT_AKA]",
+                                                                            "type":  "table"
+                                                                        },
+                                                             "graphql":  {
+                                                                             "enabled":  false
+                                                                         }
+                                                         },
+                     "BIN_MOV_ART_WISE_AKA":  {
+                                                  "rest":  {
+                                                               "path":  "/BIN_MOV_ART_WISE_AKA",
+                                                               "enabled":  true
+                                                           },
+                                                  "permissions":  [
+                                                                      {
+                                                                          "actions":  [
+                                                                                          "create",
+                                                                                          "read",
+                                                                                          "update",
+                                                                                          "delete"
+                                                                                      ],
+                                                                          "role":  "anonymous"
+                                                                      }
+                                                                  ],
+                                                  "source":  {
+                                                                 "object":  "[dbo].[BIN_MOV_ART_WISE_AKA]",
+                                                                 "type":  "table"
+                                                             },
+                                                  "graphql":  {
+                                                                  "enabled":  false
+                                                              }
+                                              },
+                     "ET_ZPO_MODIFICATION":  {
+                                                 "rest":  {
+                                                              "path":  "/ET_ZPO_MODIFICATION",
+                                                              "enabled":  true
+                                                          },
+                                                 "permissions":  [
+                                                                     {
+                                                                         "actions":  [
+                                                                                         "create",
+                                                                                         "read",
+                                                                                         "update",
+                                                                                         "delete"
+                                                                                     ],
+                                                                         "role":  "anonymous"
+                                                                     }
+                                                                 ],
+                                                 "source":  {
+                                                                "object":  "[dbo].[ET_ZPO_MODIFICATION]",
+                                                                "type":  "table"
+                                                            },
+                                                 "graphql":  {
+                                                                 "enabled":  false
+                                                             }
+                                             },
+                     "BillLineItems":  {
+                                           "rest":  {
+                                                        "path":  "/BillLineItems",
+                                                        "enabled":  true
+                                                    },
+                                           "permissions":  [
+                                                               {
+                                                                   "actions":  [
+                                                                                   "create",
+                                                                                   "read",
+                                                                                   "update",
+                                                                                   "delete"
+                                                                               ],
+                                                                   "role":  "anonymous"
+                                                               }
+                                                           ],
+                                           "source":  {
+                                                          "object":  "[dbo].[BillLineItems]",
+                                                          "type":  "table"
+                                                      },
+                                           "graphql":  {
+                                                           "enabled":  false
+                                                       }
+                                       },
+                     "Sale_Data_L_2Years_STORE_aka":  {
+                                                          "rest":  {
+                                                                       "path":  "/Sale_Data_L_2Years_STORE_aka",
+                                                                       "enabled":  true
+                                                                   },
+                                                          "permissions":  [
+                                                                              {
+                                                                                  "actions":  [
+                                                                                                  "create",
+                                                                                                  "read",
+                                                                                                  "update",
+                                                                                                  "delete"
+                                                                                              ],
+                                                                                  "role":  "anonymous"
+                                                                              }
+                                                                          ],
+                                                          "source":  {
+                                                                         "object":  "[dbo].[Sale_Data_L_2Years_STORE_aka]",
+                                                                         "type":  "table"
+                                                                     },
+                                                          "graphql":  {
+                                                                          "enabled":  false
+                                                                      }
+                                                      },
+                     "ET_VEND_DEDUCTION_AKA":  {
+                                                   "rest":  {
+                                                                "path":  "/ET_VEND_DEDUCTION_AKA",
+                                                                "enabled":  true
+                                                            },
+                                                   "permissions":  [
+                                                                       {
+                                                                           "actions":  [
+                                                                                           "create",
+                                                                                           "read",
+                                                                                           "update",
+                                                                                           "delete"
+                                                                                       ],
+                                                                           "role":  "anonymous"
+                                                                       }
+                                                                   ],
+                                                   "source":  {
+                                                                  "object":  "[dbo].[ET_VEND_DEDUCTION_AKA]",
+                                                                  "type":  "table"
+                                                              },
+                                                   "graphql":  {
+                                                                   "enabled":  false
+                                                               }
+                                               },
+                     "ET_VARIANT_ART_WISE":  {
+                                                 "rest":  {
+                                                              "path":  "/ET_VARIANT_ART_WISE",
+                                                              "enabled":  true
+                                                          },
+                                                 "permissions":  [
+                                                                     {
+                                                                         "actions":  [
+                                                                                         "create",
+                                                                                         "read",
+                                                                                         "update",
+                                                                                         "delete"
+                                                                                     ],
+                                                                         "role":  "anonymous"
+                                                                     }
+                                                                 ],
+                                                 "source":  {
+                                                                "object":  "[dbo].ET_VAR_ARTICLE_MASTER",
+                                                                "type":  "table"
+                                                            },
+                                                 "graphql":  {
+                                                                 "enabled":  false
+                                                             }
+                                             },
+                     "ET_ZPO_MODIFY_REASON":  {
+                                                  "rest":  {
+                                                               "path":  "/ET_ZPO_MODIFY_REASON",
+                                                               "enabled":  true
+                                                           },
+                                                  "permissions":  [
+                                                                      {
+                                                                          "actions":  [
+                                                                                          "create",
+                                                                                          "read",
+                                                                                          "update",
+                                                                                          "delete"
+                                                                                      ],
+                                                                          "role":  "anonymous"
+                                                                      }
+                                                                  ],
+                                                  "source":  {
+                                                                 "object":  "[dbo].[ET_ZPO_MODIFY_REASON]",
+                                                                 "type":  "table"
+                                                             },
+                                                  "graphql":  {
+                                                                  "enabled":  false
+                                                              }
+                                              },
+                     "INVT_ST_MJ_CAT_AKA":  {
+                                                "rest":  {
+                                                             "path":  "/INVT_ST_MJ_CAT_AKA",
+                                                             "enabled":  true
+                                                         },
+                                                "permissions":  [
+                                                                    {
+                                                                        "actions":  [
+                                                                                        "create",
+                                                                                        "read",
+                                                                                        "update",
+                                                                                        "delete"
+                                                                                    ],
+                                                                        "role":  "anonymous"
+                                                                    }
+                                                                ],
+                                                "source":  {
+                                                               "object":  "[dbo].[INVT_ST_MJ_CAT_AKA]",
+                                                               "type":  "table"
+                                                           },
+                                                "graphql":  {
+                                                                "enabled":  false
+                                                            }
+                                            },
+                     "ET_ZRFC_FBL1N_DEDUCTION":  {
+                                                     "rest":  {
+                                                                  "path":  "/ET_ZRFC_FBL1N_DEDUCTION",
+                                                                  "enabled":  true
+                                                              },
+                                                     "permissions":  [
+                                                                         {
+                                                                             "actions":  [
+                                                                                             "create",
+                                                                                             "read",
+                                                                                             "update",
+                                                                                             "delete"
+                                                                                         ],
+                                                                             "role":  "anonymous"
+                                                                         }
+                                                                     ],
+                                                     "source":  {
+                                                                    "object":  "[dbo].[ET_ZRFC_FBL1N_DEDUCTION]",
+                                                                    "type":  "table"
+                                                                },
+                                                     "graphql":  {
+                                                                     "enabled":  false
+                                                                 }
+                                                 },
+                     "CO_BGT_AK_CO_MJ_M_MVGR_ALL_BGT_AKA":  {
+                                                                "rest":  {
+                                                                             "path":  "/CO_BGT_AK_CO_MJ_M_MVGR_ALL_BGT_AKA",
+                                                                             "enabled":  true
+                                                                         },
+                                                                "permissions":  [
+                                                                                    {
+                                                                                        "actions":  [
+                                                                                                        "create",
+                                                                                                        "read",
+                                                                                                        "update",
+                                                                                                        "delete"
+                                                                                                    ],
+                                                                                        "role":  "anonymous"
+                                                                                    }
+                                                                                ],
+                                                                "source":  {
+                                                                               "key-fields":  [
+                                                                                                  "ID"
+                                                                                              ],
+                                                                               "object":  "[dbo].[CO_BGT_AK_CO_MJ_M_MVGR_ALL_BGT_AKA]",
+                                                                               "type":  "table"
+                                                                           },
+                                                                "graphql":  {
+                                                                                "enabled":  false
+                                                                            }
+                                                            },
+                     "Task_Tracker":  {
+                                          "rest":  {
+                                                       "path":  "/Task_Tracker",
+                                                       "enabled":  true
+                                                   },
+                                          "permissions":  [
+                                                              {
+                                                                  "actions":  [
+                                                                                  "create",
+                                                                                  "read",
+                                                                                  "update",
+                                                                                  "delete"
+                                                                              ],
+                                                                  "role":  "anonymous"
+                                                              }
+                                                          ],
+                                          "source":  {
+                                                         "key-fields":  [
+                                                                            "SNO"
+                                                                        ],
+                                                         "object":  "[dbo].[Task_Tracker]",
+                                                         "type":  "table"
+                                                     },
+                                          "graphql":  {
+                                                          "enabled":  false
+                                                      }
+                                      },
+                     "VW_ET_SALES_DATA_AKA":  {
+                                                  "rest":  {
+                                                               "path":  "/VW_ET_SALES_DATA_AKA",
+                                                               "enabled":  true
+                                                           },
+                                                  "permissions":  [
+                                                                      {
+                                                                          "actions":  [
+                                                                                          "create",
+                                                                                          "read",
+                                                                                          "update",
+                                                                                          "delete"
+                                                                                      ],
+                                                                          "role":  "anonymous"
+                                                                      }
+                                                                  ],
+                                                  "source":  {
+                                                                 "key-fields":  [
+                                                                                    "COLOR-CODE"
+                                                                                ],
+                                                                 "object":  "[dbo].[VW_ET_SALES_DATA_AKA]",
+                                                                 "type":  "view"
+                                                             },
+                                                  "graphql":  {
+                                                                  "enabled":  false
+                                                              }
+                                              },
+                     "L_12_MONTH_WISE_SALE__AKA":  {
+                                                       "rest":  {
+                                                                    "path":  "/L_12_MONTH_WISE_SALE__AKA",
+                                                                    "enabled":  true
+                                                                },
+                                                       "permissions":  [
+                                                                           {
+                                                                               "actions":  [
+                                                                                               "create",
+                                                                                               "read",
+                                                                                               "update",
+                                                                                               "delete"
+                                                                                           ],
+                                                                               "role":  "anonymous"
+                                                                           }
+                                                                       ],
+                                                       "source":  {
+                                                                      "key-fields":  [
+                                                                                         "ID"
+                                                                                     ],
+                                                                      "object":  "[dbo].[L_12_MONTH_WISE_SALE__AKA]",
+                                                                      "type":  "table"
+                                                                  },
+                                                       "graphql":  {
+                                                                       "enabled":  false
+                                                                   }
+                                                   },
+                     "COMPANY_STOCK_MASTER_AKA":  {
+                                                      "rest":  {
+                                                                   "path":  "/COMPANY_STOCK_MASTER_AKA",
+                                                                   "enabled":  true
+                                                               },
+                                                      "permissions":  [
+                                                                          {
+                                                                              "actions":  [
+                                                                                              "create",
+                                                                                              "read",
+                                                                                              "update",
+                                                                                              "delete"
+                                                                                          ],
+                                                                              "role":  "anonymous"
+                                                                          }
+                                                                      ],
+                                                      "source":  {
+                                                                     "object":  "[dbo].[COMPANY_STOCK_MASTER_AKA]",
+                                                                     "type":  "table"
+                                                                 },
+                                                      "graphql":  {
+                                                                      "enabled":  false
+                                                                  }
+                                                  },
+                     "SALE_DATA_L_2_YEAR_MONTH_AKA":  {
+                                                          "rest":  {
+                                                                       "path":  "/SALE_DATA_L_2_YEAR_MONTH_AKA",
+                                                                       "enabled":  true
+                                                                   },
+                                                          "permissions":  [
+                                                                              {
+                                                                                  "actions":  [
+                                                                                                  "create",
+                                                                                                  "read",
+                                                                                                  "update",
+                                                                                                  "delete"
+                                                                                              ],
+                                                                                  "role":  "anonymous"
+                                                                              }
+                                                                          ],
+                                                          "source":  {
+                                                                         "object":  "[dbo].[SALE_DATA_L_2_YEAR_MONTH_AKA]",
+                                                                         "type":  "table"
+                                                                     },
+                                                          "graphql":  {
+                                                                          "enabled":  false
+                                                                      }
+                                                      },
+                     "ZSRM_VEND_PAYMENT_INFO":  {
+                                                    "rest":  {
+                                                                 "path":  "/ZSRM_VEND_PAYMENT_INFO",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].ZSRM_VEND_PAYMENT_INFO",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "CO_BGT_AK_ST_MJ_SZ_ALL_BGT":  {
+                                                        "rest":  {
+                                                                     "path":  "/CO_BGT_AK_ST_MJ_SZ_ALL_BGT",
+                                                                     "enabled":  true
+                                                                 },
+                                                        "permissions":  [
+                                                                            {
+                                                                                "actions":  [
+                                                                                                "create",
+                                                                                                "read",
+                                                                                                "update",
+                                                                                                "delete"
+                                                                                            ],
+                                                                                "role":  "anonymous"
+                                                                            }
+                                                                        ],
+                                                        "source":  {
+                                                                       "object":  "[dbo].CO_BGT_AK_ST_MJ_SZ_ALL_BGT",
+                                                                       "type":  "table"
+                                                                   },
+                                                        "graphql":  {
+                                                                        "enabled":  false
+                                                                    }
+                                                    },
+                     "ET_ZMM_CITY_TRNS_RFC":  {
+                                                  "rest":  {
+                                                               "path":  "/ET_ZMM_CITY_TRNS_RFC",
+                                                               "enabled":  true
+                                                           },
+                                                  "permissions":  [
+                                                                      {
+                                                                          "actions":  [
+                                                                                          "create",
+                                                                                          "read",
+                                                                                          "update",
+                                                                                          "delete"
+                                                                                      ],
+                                                                          "role":  "anonymous"
+                                                                      }
+                                                                  ],
+                                                  "source":  {
+                                                                 "object":  "[dbo].[ET_ZMM_CITY_TRNS_RFC]",
+                                                                 "type":  "table"
+                                                             },
+                                                  "graphql":  {
+                                                                  "enabled":  false
+                                                              }
+                                              },
+                     "L_ARTICLE_Sheet1":  {
+                                              "rest":  {
+                                                           "path":  "/L_ARTICLE_Sheet1",
+                                                           "enabled":  true
+                                                       },
+                                              "permissions":  [
+                                                                  {
+                                                                      "actions":  [
+                                                                                      "create",
+                                                                                      "read",
+                                                                                      "update",
+                                                                                      "delete"
+                                                                                  ],
+                                                                      "role":  "anonymous"
+                                                                  }
+                                                              ],
+                                              "source":  {
+                                                             "object":  "[dbo].[L_ARTICLE_Sheet1]",
+                                                             "type":  "table"
+                                                         },
+                                              "graphql":  {
+                                                              "enabled":  false
+                                                          }
+                                          },
+                     "Sale_Data_L_2Years_MAJ_CAT_aka":  {
+                                                            "rest":  {
+                                                                         "path":  "/Sale_Data_L_2Years_MAJ_CAT_aka",
+                                                                         "enabled":  true
+                                                                     },
+                                                            "permissions":  [
+                                                                                {
+                                                                                    "actions":  [
+                                                                                                    "create",
+                                                                                                    "read",
+                                                                                                    "update",
+                                                                                                    "delete"
+                                                                                                ],
+                                                                                    "role":  "anonymous"
+                                                                                }
+                                                                            ],
+                                                            "source":  {
+                                                                           "object":  "[dbo].[Sale_Data_L_2Years_MAJ_CAT_aka]",
+                                                                           "type":  "table"
+                                                                       },
+                                                            "graphql":  {
+                                                                            "enabled":  false
+                                                                        }
+                                                        },
+                     "STORE_ARTICLE_INVENTORY_AKA":  {
+                                                         "rest":  {
+                                                                      "path":  "/STORE_ARTICLE_INVENTORY_AKA",
+                                                                      "enabled":  true
+                                                                  },
+                                                         "permissions":  [
+                                                                             {
+                                                                                 "actions":  [
+                                                                                                 "create",
+                                                                                                 "read",
+                                                                                                 "update",
+                                                                                                 "delete"
+                                                                                             ],
+                                                                                 "role":  "anonymous"
+                                                                             }
+                                                                         ],
+                                                         "source":  {
+                                                                        "key-fields":  [
+                                                                                           "ID"
+                                                                                       ],
+                                                                        "object":  "[dbo].[STORE_ARTICLE_INVENTORY_AKA]",
+                                                                        "type":  "table"
+                                                                    },
+                                                         "graphql":  {
+                                                                         "enabled":  false
+                                                                     }
+                                                     },
+                     "ET_VEND_PAY":  {
+                                         "rest":  {
+                                                      "path":  "/ET_VEND_PAY",
+                                                      "enabled":  true
+                                                  },
+                                         "permissions":  [
+                                                             {
+                                                                 "actions":  [
+                                                                                 "create",
+                                                                                 "read",
+                                                                                 "update",
+                                                                                 "delete"
+                                                                             ],
+                                                                 "role":  "anonymous"
+                                                             }
+                                                         ],
+                                         "source":  {
+                                                        "object":  "[dbo].[ET_VEND_PAY]",
+                                                        "type":  "table"
+                                                    },
+                                         "graphql":  {
+                                                         "enabled":  false
+                                                     }
+                                     },
+                     "ROI_TREND_DATA_AKA":  {
+                                                "rest":  {
+                                                             "path":  "/ROI_TREND_DATA_AKA",
+                                                             "enabled":  true
+                                                         },
+                                                "permissions":  [
+                                                                    {
+                                                                        "actions":  [
+                                                                                        "create",
+                                                                                        "read",
+                                                                                        "update",
+                                                                                        "delete"
+                                                                                    ],
+                                                                        "role":  "anonymous"
+                                                                    }
+                                                                ],
+                                                "source":  {
+                                                               "key-fields":  [
+                                                                                  "ID"
+                                                                              ],
+                                                               "object":  "[dbo].[ROI_TREND_DATA_AKA]",
+                                                               "type":  "table"
+                                                           },
+                                                "graphql":  {
+                                                                "enabled":  false
+                                                            }
+                                            },
+                     "TBL_16_RETAIL_GND_BGT_FORMAT_Sheet1":  {
+                                                                 "rest":  {
+                                                                              "path":  "/TBL_16_RETAIL_GND_BGT_FORMAT_Sheet1",
+                                                                              "enabled":  true
+                                                                          },
+                                                                 "permissions":  [
+                                                                                     {
+                                                                                         "actions":  [
+                                                                                                         "create",
+                                                                                                         "read",
+                                                                                                         "update",
+                                                                                                         "delete"
+                                                                                                     ],
+                                                                                         "role":  "anonymous"
+                                                                                     }
+                                                                                 ],
+                                                                 "source":  {
+                                                                                "object":  "[dbo].[TBL_16_RETAIL_GND_BGT_FORMAT_Sheet1]",
+                                                                                "type":  "table"
+                                                                            },
+                                                                 "graphql":  {
+                                                                                 "enabled":  false
+                                                                             }
+                                                             },
+                     "INVT_ST_MJ_CAT_MRP_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/INVT_ST_MJ_CAT_MRP_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[INVT_ST_MJ_CAT_MRP_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "ET_SALES_DATA":  {
+                                           "rest":  {
+                                                        "path":  "/ET_SALES_DATA",
+                                                        "enabled":  true
+                                                    },
+                                           "permissions":  [
+                                                               {
+                                                                   "actions":  [
+                                                                                   "create",
+                                                                                   "read",
+                                                                                   "update",
+                                                                                   "delete"
+                                                                               ],
+                                                                   "role":  "anonymous"
+                                                               }
+                                                           ],
+                                           "source":  {
+                                                          "object":  "[dbo].[DAILY_SALE_DATA_GEN_ART_CLR_WISE]",
+                                                          "type":  "table"
+                                                      },
+                                           "graphql":  {
+                                                           "enabled":  false
+                                                       }
+                                       },
+                     "ET_VEND_DEDUCTION":  {
+                                               "rest":  {
+                                                            "path":  "/ET_VEND_DEDUCTION",
+                                                            "enabled":  true
+                                                        },
+                                               "permissions":  [
+                                                                   {
+                                                                       "actions":  [
+                                                                                       "create",
+                                                                                       "read",
+                                                                                       "update",
+                                                                                       "delete"
+                                                                                   ],
+                                                                       "role":  "anonymous"
+                                                                   }
+                                                               ],
+                                               "source":  {
+                                                              "object":  "[dbo].[ET_VEND_DEDUCTION]",
+                                                              "type":  "table"
+                                                          },
+                                               "graphql":  {
+                                                               "enabled":  false
+                                                           }
+                                           },
+                     "VW_GRC_REPORT_AKA":  {
+                                               "rest":  {
+                                                            "path":  "/VW_GRC_REPORT_AKA",
+                                                            "enabled":  true
+                                                        },
+                                               "permissions":  [
+                                                                   {
+                                                                       "actions":  [
+                                                                                       "create",
+                                                                                       "read",
+                                                                                       "update",
+                                                                                       "delete"
+                                                                                   ],
+                                                                       "role":  "anonymous"
+                                                                   }
+                                                               ],
+                                               "source":  {
+                                                              "key-fields":  [
+                                                                                 "ID"
+                                                                             ],
+                                                              "object":  "[dbo].[VW_GRC_REPORT_AKA]",
+                                                              "type":  "view"
+                                                          },
+                                               "graphql":  {
+                                                               "enabled":  false
+                                                           }
+                                           },
+                     "INVT_ST_MJ_CAT_VND_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/INVT_ST_MJ_CAT_VND_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[INVT_ST_MJ_CAT_VND_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "INVT_ST_MJ_CAT_MICRO_MVGR_AKA":  {
+                                                           "rest":  {
+                                                                        "path":  "/INVT_ST_MJ_CAT_MICRO_MVGR_AKA",
+                                                                        "enabled":  true
+                                                                    },
+                                                           "permissions":  [
+                                                                               {
+                                                                                   "actions":  [
+                                                                                                   "create",
+                                                                                                   "read",
+                                                                                                   "update",
+                                                                                                   "delete"
+                                                                                               ],
+                                                                                   "role":  "anonymous"
+                                                                               }
+                                                                           ],
+                                                           "source":  {
+                                                                          "object":  "[dbo].[INVT_ST_MJ_CAT_MICRO_MVGR_AKA]",
+                                                                          "type":  "table"
+                                                                      },
+                                                           "graphql":  {
+                                                                           "enabled":  false
+                                                                       }
+                                                       },
+                     "CO_BGT_AK_CO_MJ_ALL_BGT":  {
+                                                     "rest":  {
+                                                                  "path":  "/CO_BGT_AK_CO_MJ_ALL_BGT",
+                                                                  "enabled":  true
+                                                              },
+                                                     "permissions":  [
+                                                                         {
+                                                                             "actions":  [
+                                                                                             "create",
+                                                                                             "read",
+                                                                                             "update",
+                                                                                             "delete"
+                                                                                         ],
+                                                                             "role":  "anonymous"
+                                                                         }
+                                                                     ],
+                                                     "source":  {
+                                                                    "object":  "[dbo].[CO_BGT_AK_CO_MJ_ALL_BGT]",
+                                                                    "type":  "table"
+                                                                },
+                                                     "graphql":  {
+                                                                     "enabled":  false
+                                                                 }
+                                                 },
+                     "ET_ZFI_FB65_DISCOUNT_RFC":  {
+                                                      "rest":  {
+                                                                   "path":  "/ET_ZFI_FB65_DISCOUNT_RFC",
+                                                                   "enabled":  true
+                                                               },
+                                                      "permissions":  [
+                                                                          {
+                                                                              "actions":  [
+                                                                                              "create",
+                                                                                              "read",
+                                                                                              "update",
+                                                                                              "delete"
+                                                                                          ],
+                                                                              "role":  "anonymous"
+                                                                          }
+                                                                      ],
+                                                      "source":  {
+                                                                     "key-fields":  [
+                                                                                        "id"
+                                                                                    ],
+                                                                     "object":  "[dbo].[ET_ZFI_FB65_DISCOUNT_RFC]",
+                                                                     "type":  "table"
+                                                                 },
+                                                      "graphql":  {
+                                                                      "enabled":  false
+                                                                  }
+                                                  },
+                     "ET_ZSRM_ROUTING_LOG_RFC":  {
+                                                     "rest":  {
+                                                                  "path":  "/ET_ZSRM_ROUTING_LOG_RFC",
+                                                                  "enabled":  true
+                                                              },
+                                                     "permissions":  [
+                                                                         {
+                                                                             "actions":  [
+                                                                                             "create",
+                                                                                             "read",
+                                                                                             "update",
+                                                                                             "delete"
+                                                                                         ],
+                                                                             "role":  "anonymous"
+                                                                         }
+                                                                     ],
+                                                     "source":  {
+                                                                    "object":  "[dbo].[ET_ZSRM_ROUTING_LOG_RFC]",
+                                                                    "type":  "table"
+                                                                },
+                                                     "graphql":  {
+                                                                     "enabled":  false
+                                                                 }
+                                                 },
+                     "STORE_MAJ_CAT_BUDGET_FIXTURE_AKA":  {
+                                                              "rest":  {
+                                                                           "path":  "/STORE_MAJ_CAT_BUDGET_FIXTURE_AKA",
+                                                                           "enabled":  true
+                                                                       },
+                                                              "permissions":  [
+                                                                                  {
+                                                                                      "actions":  [
+                                                                                                      "create",
+                                                                                                      "read",
+                                                                                                      "update",
+                                                                                                      "delete"
+                                                                                                  ],
+                                                                                      "role":  "anonymous"
+                                                                                  }
+                                                                              ],
+                                                              "source":  {
+                                                                             "object":  "[dbo].[STORE_MAJ_CAT_BUDGET_FIXTURE_AKA]",
+                                                                             "type":  "table"
+                                                                         },
+                                                              "graphql":  {
+                                                                              "enabled":  false
+                                                                          }
+                                                          },
+                     "ARTICLE_EAN_NUMBER_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/ARTICLE_EAN_NUMBER_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[ARTICLE_EAN_NUMBER_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "VV_GEN_ART_CLR_STK_AKA":  {
+                                                    "rest":  {
+                                                                 "path":  "/VV_GEN_ART_CLR_STK_AKA",
+                                                                 "enabled":  true
+                                                             },
+                                                    "permissions":  [
+                                                                        {
+                                                                            "actions":  [
+                                                                                            "create",
+                                                                                            "read",
+                                                                                            "update",
+                                                                                            "delete"
+                                                                                        ],
+                                                                            "role":  "anonymous"
+                                                                        }
+                                                                    ],
+                                                    "source":  {
+                                                                   "object":  "[dbo].[VV_GEN_ART_CLR_STK_AKA]",
+                                                                   "type":  "table"
+                                                               },
+                                                    "graphql":  {
+                                                                    "enabled":  false
+                                                                }
+                                                },
+                     "ST_ART_DISCOUNT":  {
+                                             "rest":  {
+                                                          "path":  "/ST_ART_DISCOUNT",
+                                                          "enabled":  true
+                                                      },
+                                             "permissions":  [
+                                                                 {
+                                                                     "actions":  [
+                                                                                     "create",
+                                                                                     "read",
+                                                                                     "update",
+                                                                                     "delete"
+                                                                                 ],
+                                                                     "role":  "anonymous"
+                                                                 }
+                                                             ],
+                                             "source":  {
+                                                            "object":  "[dbo].[ST_ART_DISCOUNT]",
+                                                            "type":  "table"
+                                                        },
+                                             "graphql":  {
+                                                             "enabled":  false
+                                                         }
+                                         },
+                     "CO_BGT_AK_CO_MJ_SZ_ALL_BGT":  {
+                                                        "rest":  {
+                                                                     "path":  "/CO_BGT_AK_CO_MJ_SZ_ALL_BGT",
+                                                                     "enabled":  true
+                                                                 },
+                                                        "permissions":  [
+                                                                            {
+                                                                                "actions":  [
+                                                                                                "create",
+                                                                                                "read",
+                                                                                                "update",
+                                                                                                "delete"
+                                                                                            ],
+                                                                                "role":  "anonymous"
+                                                                            }
+                                                                        ],
+                                                        "source":  {
+                                                                       "object":  "[dbo].CO_BGT_AK_CO_MJ_SZ_ALL_BGT",
+                                                                       "type":  "table"
+                                                                   },
+                                                        "graphql":  {
+                                                                        "enabled":  false
+                                                                    }
+                                                    },
+                     "HHT_VERIENT_ART":  {
+                                             "rest":  {
+                                                          "path":  "/HHT_VERIENT_ART",
+                                                          "enabled":  true
+                                                      },
+                                             "permissions":  [
+                                                                 {
+                                                                     "actions":  [
+                                                                                     "create",
+                                                                                     "read",
+                                                                                     "update",
+                                                                                     "delete"
+                                                                                 ],
+                                                                     "role":  "anonymous"
+                                                                 }
+                                                             ],
+                                             "source":  {
+                                                            "object":  "[dbo].[HHT_VERIENT_ART]",
+                                                            "type":  "table"
+                                                        },
+                                             "graphql":  {
+                                                             "enabled":  false
+                                                         }
+                                         },
+                     "STORE_GEN_ART_COL_INVENTORY_AKA":  {
+                                                             "rest":  {
+                                                                          "path":  "/STORE_GEN_ART_COL_INVENTORY_AKA",
+                                                                          "enabled":  true
+                                                                      },
+                                                             "permissions":  [
+                                                                                 {
+                                                                                     "actions":  [
+                                                                                                     "create",
+                                                                                                     "read",
+                                                                                                     "update",
+                                                                                                     "delete"
+                                                                                                 ],
+                                                                                     "role":  "anonymous"
+                                                                                 }
+                                                                             ],
+                                                             "source":  {
+                                                                            "key-fields":  [
+                                                                                               "ID"
+                                                                                           ],
+                                                                            "object":  "[dbo].[STORE_GEN_ART_COL_INVENTORY_AKA]",
+                                                                            "type":  "table"
+                                                                        },
+                                                             "graphql":  {
+                                                                             "enabled":  false
+                                                                         }
+                                                         },
+                     "ET_ZCT04_CHAR_GET_RFC":  {
+                                                   "rest":  {
+                                                                "path":  "/ET_ZCT04_CHAR_GET_RFC",
+                                                                "enabled":  true
+                                                            },
+                                                   "permissions":  [
+                                                                       {
+                                                                           "actions":  [
+                                                                                           "create",
+                                                                                           "read",
+                                                                                           "update",
+                                                                                           "delete"
+                                                                                       ],
+                                                                           "role":  "anonymous"
+                                                                       }
+                                                                   ],
+                                                   "source":  {
+                                                                  "key-fields":  [
+                                                                                     "ID"
+                                                                                 ],
+                                                                  "object":  "[dbo].[ET_ZCT04_CHAR_GET_RFC]",
+                                                                  "type":  "table"
+                                                              },
+                                                   "graphql":  {
+                                                                   "enabled":  false
+                                                               }
+                                               },
+                     "GET_VV_ART_DATA_AKA":  {
+                                                 "rest":  {
+                                                              "path":  "/GET_VV_ART_DATA_AKA",
+                                                              "enabled":  true
+                                                          },
+                                                 "permissions":  [
+                                                                     {
+                                                                         "actions":  [
+                                                                                         "create",
+                                                                                         "read",
+                                                                                         "update",
+                                                                                         "delete"
+                                                                                     ],
+                                                                         "role":  "anonymous"
+                                                                     }
+                                                                 ],
+                                                 "source":  {
+                                                                "object":  "[dbo].[GET_VV_ART_DATA_AKA]",
+                                                                "type":  "table"
+                                                            },
+                                                 "graphql":  {
+                                                                 "enabled":  false
+                                                             }
+                                             },
+                     "INVT_ST_MJ_CAT_RNG_SEG_AKA":  {
+                                                        "rest":  {
+                                                                     "path":  "/INVT_ST_MJ_CAT_RNG_SEG_AKA",
+                                                                     "enabled":  true
+                                                                 },
+                                                        "permissions":  [
+                                                                            {
+                                                                                "actions":  [
+                                                                                                "create",
+                                                                                                "read",
+                                                                                                "update",
+                                                                                                "delete"
+                                                                                            ],
+                                                                                "role":  "anonymous"
+                                                                            }
+                                                                        ],
+                                                        "source":  {
+                                                                       "object":  "[dbo].[INVT_ST_MJ_CAT_RNG_SEG_AKA]",
+                                                                       "type":  "table"
+                                                                   },
+                                                        "graphql":  {
+                                                                        "enabled":  false
+                                                                    }
+                                                    },
+                     "ET_ARTICLE_GEN_CLR_WISE":  {
+                                                     "rest":  {
+                                                                  "path":  "/ET_ARTICLE_GEN_CLR_WISE",
+                                                                  "enabled":  true
+                                                              },
+                                                     "permissions":  [
+                                                                         {
+                                                                             "actions":  [
+                                                                                             "create",
+                                                                                             "read",
+                                                                                             "update",
+                                                                                             "delete"
+                                                                                         ],
+                                                                             "role":  "anonymous"
+                                                                         }
+                                                                     ],
+                                                     "source":  {
+                                                                    "object":  "[dbo].ET_ARTICLE_GEN_CLR_WISE_MASTER",
+                                                                    "type":  "table"
+                                                                },
+                                                     "graphql":  {
+                                                                     "enabled":  false
+                                                                 }
+                                                 },
+                     "RETAIL_BAR_CODE_AKA":  {
+                                                 "rest":  {
+                                                              "path":  "/RETAIL_BAR_CODE_AKA",
+                                                              "enabled":  true
+                                                          },
+                                                 "permissions":  [
+                                                                     {
+                                                                         "actions":  [
+                                                                                         "create",
+                                                                                         "read",
+                                                                                         "update",
+                                                                                         "delete"
+                                                                                     ],
+                                                                         "role":  "anonymous"
+                                                                     }
+                                                                 ],
+                                                 "source":  {
+                                                                "object":  "[dbo].[RETAIL_BAR_CODE_AKA]",
+                                                                "type":  "table"
+                                                            },
+                                                 "graphql":  {
+                                                                 "enabled":  false
+                                                             }
+                                             }
+                 }
+}

@@ -1,0 +1,1993 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAB Deployment Manager</title>
+    <!-- SheetJS for Excel Export (Local) -->
+    <script src="xlsx.full.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: #0a0e27;
+            color: #e5e7eb;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* <CHANGE> Enhanced header with dark theme and improved layout */
+        .header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #151b2e 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 32px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            align-items: start;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        h1 {
+            color: #f5f5f5;
+            font-size: 28px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            animation: fadeIn 0.5s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        button {
+            padding: 10px 16px;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* <CHANGE> Updated button themes with modern gradients */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-danger:hover:not(:disabled) {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 8px 16px rgba(239, 68, 68, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .btn-warning:hover:not(:disabled) {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            box-shadow: 0 8px 16px rgba(245, 158, 11, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+        
+        .btn-info:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            box-shadow: 0 8px 16px rgba(6, 182, 212, 0.2);
+            transform: translateY(-2px);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0px);
+        }
+
+        /* <CHANGE> Modern layout with improved content grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            animation: slideUp 0.6s ease;
+        }
+
+        .panel {
+            background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 16px;
+            font-weight: 600;
+            color: #f5f5f5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(59, 130, 246, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            font-weight: 600;
+            color: #9ca3af;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: all 0.2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .table-wrapper {
+            flex: 1;
+            max-height: calc(100vh - 380px);
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-delete {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        /* <CHANGE> Improved JSON viewer with dark theme */
+        .json-viewer {
+            background: #0a0e27;
+            color: #a0aec0;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            max-height: calc(100vh - 380px);
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        input[type="text"], input[type="search"] {
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            font-family: inherit;
+        }
+
+        input[type="text"]::placeholder, input[type="search"]::placeholder {
+            color: #6b7280;
+        }
+
+        input[type="text"]:focus, input[type="search"]:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        select {
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            font-family: inherit;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* <CHANGE> Improved toast notifications with dark theme */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            background: linear-gradient(135deg, #1a1f3a 0%, #151b2e 100%);
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 320px;
+            animation: slideInRight 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .toast-success { border-left: 3px solid #10b981; }
+        .toast-error { border-left: 3px solid #ef4444; }
+        .toast-info { border-left: 3px solid #3b82f6; }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toast-message {
+            flex: 1;
+            font-size: 14px;
+            color: #e5e7eb;
+            line-height: 1.4;
+        }
+
+        .toast-close {
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 20px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #9ca3af;
+        }
+
+        /* <CHANGE> Modern dialog and modal overlays */
+        .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dialog-box {
+            background: linear-gradient(135deg, #1a1f3a 0%, #151b2e 100%);
+            padding: 32px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: slideUp 0.3s ease;
+        }
+
+        .dialog-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dialog-message {
+            font-size: 14px;
+            color: #d1d5db;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .dialog-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e5e7eb;
+            font-family: inherit;
+        }
+
+        .dialog-input::placeholder {
+            color: #6b7280;
+        }
+
+        .dialog-input:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+            padding: 24px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1f3a 0%, #151b2e 100%);
+            padding: 32px;
+            border-radius: 12px;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f5f5f5;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .close-modal:hover {
+            color: #e5e7eb;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+        }
+
+        /* <CHANGE> Improved progress bar styling */
+        .progress-container {
+            display: none;
+            background: linear-gradient(135deg, #1a1f3a 0%, #151b2e 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.3s ease;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+        }
+
+        .progress-status {
+            font-size: 14px;
+            color: #d1d5db;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .icon-lg {
+            width: 24px;
+            height: 24px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* <CHANGE> Improved scrollbar styling */
+        .table-wrapper::-webkit-scrollbar,
+        .json-viewer::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track,
+        .json-viewer::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb,
+        .json-viewer::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover,
+        .json-viewer::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>
+                    <svg class="icon-lg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2L2 7L12 12L22 7L12 2Z"/><path fill="currentColor" d="M2 17L12 22L22 17"/><path fill="currentColor" d="M2 12L12 17L22 12"/></svg>
+                    DAB Deployment Manager
+                </h1>
+            </div>
+            
+            <div>
+                <div class="stats">
+                    <div class="stat-box" id="statTotal">Total: 0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-actions" style="margin-bottom: 24px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="search" id="searchEntities" placeholder="🔍 Search entities..." onkeyup="filterEntities()" style="flex: 1; min-width: 200px;">
+            <button class="btn-info" onclick="exportMainTable()">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M18 20H6V4H13V9H18V20M12 19L8 15H10.5V12H13.5V15H16L12 19Z"/></svg>
+                Export Excel
+            </button>
+            <button class="btn-primary" onclick="viewJson()">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M13 9H18.5L13 3.5V9M6 2H14L20 8V20C20 21.1 19.1 22 18 22H6C4.89 22 4 21.1 4 20V4C4 2.89 4.89 2 6 2M10.1 11.4C10.08 11.44 9.81 13.16 8 16.09C8 16.09 4.5 17.91 5.33 19.27C6 20.35 7.65 19.23 9.07 16.59C9.07 16.59 10.89 15.95 13.31 15.77C13.31 15.77 17.17 17.5 17.7 15.66C18.22 13.8 14.64 14.22 14 14.41C14 14.41 12.65 13.08 12.04 11.5C12.04 11.5 12.94 9.82 12.64 8.89C12.34 8 11.03 8.16 11.47 10.09C11.82 11.58 10.1 11.4 10.1 11.4Z"/></svg>
+                Download JSON
+            </button>
+            <button class="btn-success" onclick="openAddModal()">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+                Add Entities
+            </button>
+            <button class="btn-danger" onclick="deployToAzure()">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M4,14H6.14L7.41,6.62C7.55,5.95 8.09,5.5 8.78,5.5H10.22C10.91,5.5 11.45,5.95 11.59,6.62L12.86,14H15C16.1,14 17,14.9 17,16V20C17,21.1 16.1,22 15,22H9C7.9,22 7,21.1 7,20V16C7,14.9 7.9,14 9,14M16,3L9,3V4.5H16M19,6H17V8H19M17,11H19V9H17V11Z"/></svg>
+                Push to Azure
+            </button>
+            <button class="btn-info" onclick="openApiExplorer()">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M8.5,18L10.24,12.24L5,9.5L10.24,6.76L8.5,1L14.26,4.74L17,0L19.74,5.76L25,3L22.26,8.76L27,11.5L22.26,14.24L25,20L19.24,17.26L17,23L14.26,17.24L8.5,20M17,11.5A1.5,1.5 0 0,0 15.5,13A1.5,1.5 0 0,0 17,14.5A1.5,1.5 0 0,0 18.5,13A1.5,1.5 0 0,0 17,11.5Z"/></svg>
+                API Explorer
+            </button>
+            <button class="btn-primary" onclick="refreshData()">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg>
+                Refresh
+            </button>
+        </div>
+
+        <div id="progressContainer" class="progress-container">
+            <div class="progress-status" id="progressStatus">
+                <div class="spinner"></div>
+                Deploying...
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="panel">
+                <div class="panel-title">
+                    <span>
+                        <svg class="icon" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 8px;"><path fill="currentColor" d="M3,3H21V7H3V3M4,8H20V21H4V8M9.5,11A0.5,0.5 0 0,0 9,11.5V13H15V11.5A0.5,0.5 0 0,0 14.5,11H9.5Z"/></svg>
+                        Current Entities
+                    </span>
+                    <span id="entityCount">0 entities</span>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">#</th>
+                                <th>Entity Name</th>
+                                <th>Real Name</th>
+                                <th style="width: 100px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="entitiesTable">
+                            <tr><td colspan="4" class="loading-text">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <span>
+                        <svg class="icon" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 8px;"><path fill="currentColor" d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M6,20H15L18,20V12L15,12V15L6,15V20Z"/></svg>
+                        JSON Preview
+                    </span>
+                    <button class="btn-primary" onclick="copyJson()" style="padding: 8px 12px; font-size: 12px;">
+                        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="json-viewer" id="jsonViewer">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Add Entities Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <svg class="icon-lg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+                    Add Entities from API_Master_AKA
+                </h2>
+                <span class="close-modal" onclick="closeAddModal()">&times;</span>
+            </div>
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <input type="search" id="searchTables" placeholder="🔍 Search tables..." onkeyup="filterTables()" style="flex: 1; min-width: 200px;">
+                <select id="statusFilter" onchange="filterTables()">
+                    <option value="all">All Tables</option>
+                    <option value="available">Add Only</option>
+                    <option value="existing">Added Only</option>
+                </select>
+                <button class="btn-info" onclick="exportModalTable()">
+                    <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M18 20H6V4H13V9H18V20M12 19L8 15H10.5V12H13.5V15H16L12 19Z"/></svg>
+                    Export
+                </button>
+                <button class="btn-info" onclick="selectAll()">Select All</button>
+                <button class="btn-warning" onclick="deselectAll()">Deselect All</button>
+            </div>
+            <div class="table-wrapper" style="flex: 1; overflow-y: auto; margin-bottom: 20px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">Select</th>
+                            <th style="width: 50px;">#</th>
+                            <th>Table Name</th>
+                            <th style="width: 120px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablesTable">
+                        <tr><td colspan="4" class="loading-text">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button class="btn-warning" onclick="closeAddModal()">Cancel</button>
+                <button class="btn-success" onclick="addSelectedEntities()">
+                    <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>
+                    Add Selected (<span id="selectedCount">0</span>)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Explorer Modal -->
+    <div id="apiExplorerModal" class="modal" style="padding: 12px;">
+        <div class="modal-content" style="width: 100%; max-width: 1200px; height: 96vh; max-height: 96vh; display: flex; flex-direction: column; padding: 24px 28px;">
+            <div class="modal-header" style="flex-shrink: 0;">
+                <h2>
+                    <svg class="icon-lg" viewBox="0 0 24 24"><path fill="currentColor" d="M8.5,18L10.24,12.24L5,9.5L10.24,6.76L8.5,1L14.26,4.74L17,0L19.74,5.76L25,3L22.26,8.76L27,11.5L22.26,14.24L25,20L19.24,17.26L17,23L14.26,17.24L8.5,20M17,11.5A1.5,1.5 0 0,0 15.5,13A1.5,1.5 0 0,0 17,14.5A1.5,1.5 0 0,0 18.5,13A1.5,1.5 0 0,0 17,11.5Z"/></svg>
+                    API Explorer & Tester
+                </h2>
+                <span class="close-modal" onclick="closeApiExplorer()">&times;</span>
+            </div>
+            <div style="margin-bottom: 20px; flex-shrink: 0; position: relative;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #e5e7eb;">Select Entity:</label>
+                <input type="search" id="apiEntitySearch" placeholder="🔍 Type to search entities..." autocomplete="off"
+                    oninput="filterApiEntityList()"
+                    onfocus="showApiEntityList()"
+                    onkeydown="handleApiEntityKey(event)"
+                    style="width: 100%; padding: 10px 12px; background: #374151; border: 1px solid #4b5563; border-radius: 8px; color: #e5e7eb; font-size: 14px; box-sizing: border-box;">
+                <div id="apiEntityDropdown" style="display:none; position:absolute; top:100%; left:0; right:0; background:#1f2937; border:1px solid #4b5563; border-radius:0 0 8px 8px; max-height:220px; overflow-y:auto; z-index:9999; margin-top:-2px;"></div>
+                <input type="hidden" id="apiEntitySelect" value="">
+            </div>
+            <div id="apiEndpointsContainer" style="display: none; flex: 1; overflow: hidden; min-height: 0; flex-direction: column;">
+                <!-- Base URL bar -->
+                <div style="background: #1f2937; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; border: 1px solid #374151; flex-shrink: 0; display: flex; align-items: center; gap: 10px;">
+                    <span style="color:#10b981; font-size:12px; font-weight:600; white-space:nowrap;">Base URL:</span>
+                    <input type="text" id="apiBaseUrl" value="https://my-dab-app.azurewebsites.net/api"
+                        style="flex: 1; padding: 6px 12px; background: #111827; border: 1px solid #4b5563; border-radius: 6px; color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">
+                    <button class="btn-info" onclick="switchApiBase('local')" style="padding: 5px 12px; font-size:12px; white-space:nowrap;">Local</button>
+                    <button class="btn-info" onclick="switchApiBase('azure')" style="padding: 5px 12px; font-size:12px; white-space:nowrap;">Azure</button>
+                    <button class="btn-info" onclick="copyToClipboard(document.getElementById('apiBaseUrl').value)" style="padding: 5px 12px; font-size:12px;">Copy</button>
+                </div>
+
+                <!-- Single scrollable column - operations + response stacked -->
+                <div style="flex: 1; overflow-y: auto; min-height: 0;">
+                    <div id="apiOperations"></div>
+
+                    <!-- Response panel - shown after test -->
+                    <div id="apiTestResult" style="display:none; background: #1f2937; border-radius: 8px; padding: 16px; margin-top: 16px; border: 1px solid #10b981;">
+                        <h3 style="color: #10b981; margin: 0 0 12px 0; font-size: 14px;">📋 Test Result</h3>
+                        <div style="margin-bottom: 10px;">
+                            <div style="color: #6b7280; font-size: 11px; margin-bottom: 4px; text-transform:uppercase;">Status</div>
+                            <div id="apiTestStatus" style="font-weight: 600; font-size: 14px;"></div>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <div style="color: #6b7280; font-size: 11px; margin-bottom: 4px; text-transform:uppercase;">Request URL</div>
+                            <pre id="apiTestRequest" style="background: #111827; padding: 10px; border-radius: 6px; margin: 0; font-size: 12px; border: 1px solid #374151; white-space: pre-wrap; word-break: break-all;"></pre>
+                        </div>
+                        <div>
+                            <div style="color: #6b7280; font-size: 11px; margin-bottom: 4px; text-transform:uppercase;">Response</div>
+                            <pre id="apiTestResponse" style="background: #111827; padding: 12px; border-radius: 6px; margin: 0; font-size: 12px; border: 1px solid #374151; white-space: pre-wrap; max-height: 400px; overflow-y: auto;"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Dialog -->
+    <div id="dialogOverlay" class="dialog-overlay">
+        <div class="dialog-box">
+            <div class="dialog-title" id="dialogTitle">Confirm</div>
+            <div class="dialog-message" id="dialogMessage">Are you sure?</div>
+            <input type="text" id="dialogInput" class="dialog-input" style="display: none;">
+            <div class="dialog-actions">
+                <button class="btn-warning" onclick="closeDialog()">Cancel</button>
+                <button class="btn-success" id="dialogConfirm" onclick="confirmDialog()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = `http://${window.location.hostname}:8888/api`;
+        let currentEntities = [];
+        let allTables = [];
+        let selectedTables = new Set();
+        let dialogCallback = null;
+
+        window.onload = function() {
+            refreshData();
+        };
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            const icons = {
+                success: '<svg class="toast-icon" viewBox="0 0 24 24"><path fill="#10b981" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"/></svg>',
+                error: '<svg class="toast-icon" viewBox="0 0 24 24"><path fill="#ef4444" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/></svg>',
+                info: '<svg class="toast-icon" viewBox="0 0 24 24"><path fill="#3b82f6" d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>'
+            };
+            
+            toast.innerHTML = `
+                ${icons[type]}
+                <div class="toast-message">${message}</div>
+                <span class="toast-close" onclick="this.parentElement.remove()">&times;</span>
+            `;
+            
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.animation = 'slideInRight 0.3s ease reverse'; setTimeout(() => toast.remove(), 300); }, 4000);
+        }
+
+        function showDialog(title, message, options = {}) {
+            return new Promise((resolve) => {
+                dialogCallback = resolve;
+                document.getElementById('dialogTitle').innerHTML = title;
+                document.getElementById('dialogMessage').innerHTML = message;
+                
+                const input = document.getElementById('dialogInput');
+                if (options.input) {
+                    input.style.display = 'block';
+                    input.value = options.defaultValue || '';
+                    input.placeholder = options.placeholder || '';
+                    setTimeout(() => input.focus(), 100);
+                } else {
+                    input.style.display = 'none';
+                }
+                
+                document.getElementById('dialogOverlay').style.display = 'flex';
+            });
+        }
+
+        function closeDialog() {
+            document.getElementById('dialogOverlay').style.display = 'none';
+            if (dialogCallback) dialogCallback(false);
+        }
+
+        function confirmDialog() {
+            const input = document.getElementById('dialogInput');
+            const value = input.style.display !== 'none' ? input.value : true;
+            document.getElementById('dialogOverlay').style.display = 'none';
+            if (dialogCallback) dialogCallback(value);
+        }
+
+        async function refreshData() {
+            await loadEntities();
+            updateJsonViewer();
+        }
+
+        async function loadEntities() {
+            try {
+                const response = await fetch(`${API_URL}/entities`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (Array.isArray(data.entities)) {
+                        currentEntities = data.entities;
+                    } else if (data.entities && Array.isArray(data.entities.value)) {
+                        currentEntities = data.entities.value;
+                    } else if (data.entities && data.entities.Count > 0) {
+                        currentEntities = Object.values(data.entities).find(v => Array.isArray(v)) || [];
+                    } else {
+                        currentEntities = [];
+                    }
+                    displayEntities();
+                    updateStats();
+                }
+            } catch (error) {
+                showToast('Failed to load entities. Make sure API server is running!', 'error');
+            }
+        }
+
+        function displayEntities() {
+            const tbody = document.getElementById('entitiesTable');
+            const displayEntities = currentEntities.filter(e => e.name !== 'API_Master_AKA');
+            
+            if (displayEntities.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="loading-text">No entities found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = displayEntities.map((entity, index) => `
+                <tr>
+                    <td><strong>${index + 1}</strong></td>
+                    <td><strong>${entity.name}</strong></td>
+                    <td style="color: #9ca3af; font-size: 13px;">${entity['real-name']}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteEntity('${entity.name}')">
+                            <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path fill="currentColor" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/></svg>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterEntities() {
+            const search = document.getElementById('searchEntities').value.toLowerCase();
+            const tbody = document.getElementById('entitiesTable');
+            Array.from(tbody.getElementsByTagName('tr')).forEach(row => {
+                const entityName = row.cells[1]?.textContent.toLowerCase() || '';
+                const realName = row.cells[2]?.textContent.toLowerCase() || '';
+                row.style.display = (entityName.includes(search) || realName.includes(search)) ? '' : 'none';
+            });
+        }
+
+        function updateStats() {
+            const displayEntities = currentEntities.filter(e => e.name !== 'API_Master_AKA');
+            document.getElementById('statTotal').textContent = `Total: ${displayEntities.length}`;
+            document.getElementById('entityCount').textContent = `${displayEntities.length} entities`;
+            document.getElementById('selectedCount').textContent = selectedTables.size;
+        }
+
+        function updateJsonViewer() {
+            document.getElementById('jsonViewer').textContent = JSON.stringify(currentEntities, null, 2);
+        }
+
+        function exportMainTable() {
+            const displayEntities = currentEntities.filter(e => e.name !== 'API_Master_AKA');
+            const data = displayEntities.map((entity, index) => ({
+                '#': index + 1,
+                'Entity Name': entity.name,
+                'Real Name': entity['real-name']
+            }));
+            
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Entities");
+            XLSX.writeFile(wb, `DAB_Entities_${new Date().toISOString().split('T')[0]}.xlsx`);
+            showToast('Excel file exported successfully!', 'success');
+        }
+
+        function exportModalTable() {
+            const data = allTables.map((table, index) => {
+                const isExisting = currentEntities.some(e => e.name === table.TABLE_NAME);
+                return {
+                    '#': index + 1,
+                    'Table Name': table.TABLE_NAME,
+                    'Status': isExisting ? 'Added' : 'Add'
+                };
+            });
+            
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Available Tables");
+            XLSX.writeFile(wb, `DAB_Available_Tables_${new Date().toISOString().split('T')[0]}.xlsx`);
+            showToast('Excel file exported successfully!', 'success');
+        }
+
+        function viewJson() {
+            updateJsonViewer();
+            const json = JSON.stringify(currentEntities, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `entities_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            showToast('JSON file downloaded!', 'success');
+        }
+
+        function copyJson() {
+            const json = JSON.stringify(currentEntities, null, 2);
+            navigator.clipboard.writeText(json).then(() => {
+                showToast('JSON copied to clipboard!', 'success');
+            });
+        }
+
+        async function deleteEntity(entityName) {
+            const confirmed = await showDialog(
+                '<svg class="icon-lg" viewBox="0 0 24 24" style="color: #ef4444;"><path fill="currentColor" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/></svg> Delete Entity',
+                `Are you sure you want to delete <strong>${entityName}</strong>?<br><br>A backup will be created automatically.`
+            );
+            
+            if (!confirmed) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/entities/delete`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: entityName })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`Entity deleted: ${entityName}`, 'success');
+                    await refreshData();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (error) {
+                showToast('Failed to delete entity', 'error');
+            }
+        }
+
+        async function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+            await loadTables();
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+            selectedTables.clear();
+            updateStats();
+        }
+
+        async function loadTables() {
+            try {
+                const response = await fetch(`${API_URL}/tables`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (Array.isArray(data.tables)) {
+                        allTables = data.tables;
+                    } else if (data.tables && Array.isArray(data.tables.value)) {
+                        allTables = data.tables.value;
+                    } else {
+                        allTables = [];
+                    }
+                    displayTables();
+                } else {
+                    document.getElementById('tablesTable').innerHTML = `<tr><td colspan="4" class="loading-text" style="color: #ef4444;">${data.message}</td></tr>`;
+                }
+            } catch (error) {
+                document.getElementById('tablesTable').innerHTML = '<tr><td colspan="4" class="loading-text" style="color: #ef4444;">Failed to load tables</td></tr>';
+            }
+        }
+
+        function displayTables() {
+            const tbody = document.getElementById('tablesTable');
+            
+            tbody.innerHTML = allTables.map((table, index) => {
+                const isExisting = currentEntities.some(e => e.name === table.TABLE_NAME);
+                const disabled = isExisting ? 'disabled' : '';
+                const style = isExisting ? 'opacity: 0.5;' : '';
+                
+                return `
+                    <tr style="${style}">
+                        <td>
+                            <input type="checkbox" 
+                                   ${disabled}
+                                   onchange="toggleTableSelection('${table.TABLE_NAME}')" 
+                                   id="check_${table.TABLE_NAME}">
+                        </td>
+                        <td>${index + 1}</td>
+                        <td><strong>${table.TABLE_NAME}</strong></td>
+                        <td>
+                            ${isExisting ? 
+                                '<span style="color: #10b981; font-weight: 600; font-size: 12px;">✓ Added</span>' : 
+                                '<span style="color: #3b82f6; font-weight: 600; font-size: 12px;">+ Add</span>'}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function toggleTableSelection(tableName) {
+            if (selectedTables.has(tableName)) {
+                selectedTables.delete(tableName);
+            } else {
+                selectedTables.add(tableName);
+            }
+            updateStats();
+        }
+
+        function selectAll() {
+            allTables.forEach(table => {
+                const isExisting = currentEntities.some(e => e.name === table.TABLE_NAME);
+                if (!isExisting) {
+                    selectedTables.add(table.TABLE_NAME);
+                    const checkbox = document.getElementById(`check_${table.TABLE_NAME}`);
+                    if (checkbox) checkbox.checked = true;
+                }
+            });
+            updateStats();
+        }
+
+        function deselectAll() {
+            selectedTables.clear();
+            allTables.forEach(table => {
+                const checkbox = document.getElementById(`check_${table.TABLE_NAME}`);
+                if (checkbox) checkbox.checked = false;
+            });
+            updateStats();
+        }
+
+        function filterTables() {
+            const search = document.getElementById('searchTables').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const tbody = document.getElementById('tablesTable');
+            
+            Array.from(tbody.getElementsByTagName('tr')).forEach(row => {
+                const tableName = row.cells[2]?.textContent.toLowerCase() || '';
+                const statusCell = row.cells[3]?.textContent || '';
+                const isExisting = statusCell.includes('Added');
+                
+                let matchesSearch = tableName.includes(search);
+                let matchesStatus = statusFilter === 'all' || (statusFilter === 'available' && !isExisting) || (statusFilter === 'existing' && isExisting);
+                
+                row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+            });
+        }
+
+        async function addSelectedEntities() {
+            if (selectedTables.size === 0) {
+                showToast('Please select at least one table!', 'error');
+                return;
+            }
+            
+            const confirmed = await showDialog(
+                '<svg class="icon-lg" viewBox="0 0 24 24" style="color: #10b981;"><path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg> Add Entities',
+                `Add <strong>${selectedTables.size}</strong> entities?<br><br>A backup will be created automatically.`
+            );
+            
+            if (!confirmed) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/entities/add`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tables: Array.from(selectedTables) })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`${data.message}\nTotal entities: ${data.totalEntities}`, 'success');
+                    await refreshData();
+                    closeAddModal();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            } catch (error) {
+                showToast('Failed to add entities', 'error');
+            }
+        }
+
+        async function deployToAzure() {
+            const displayEntities = currentEntities.filter(e => e.name !== 'API_Master_AKA');
+            
+            // Get latest version from API
+            let latestVersion = 'v18';
+            try {
+                const versionResponse = await fetch(`${API_URL}/version`);
+                if (versionResponse.ok) {
+                    const data = await versionResponse.json();
+                    if (data.success && data.version) {
+                        latestVersion = data.version;
+                    }
+                }
+            } catch (e) {
+                console.log('Could not fetch latest version:', e);
+            }
+            
+            const version = await showDialog(
+                '<svg class="icon-lg" viewBox="0 0 24 24" style="color: #3b82f6;"><path fill="currentColor" d="M4,14H6.14L7.41,6.62C7.55,5.95 8.09,5.5 8.78,5.5H10.22C10.91,5.5 11.45,5.95 11.59,6.62L12.86,14H15C16.1,14 17,14.9 17,16V20C17,21.1 16.1,22 15,22H9C7.9,22 7,21.1 7,20V16C7,14.9 7.9,14 9,14M16,3L9,3V4.5H16M19,6H17V8H19M17,11H19V9H17V11Z"/></svg> Deploy to Azure',
+                `<strong>Latest Version:</strong> <span style="color: #10b981; font-weight: bold;">${latestVersion}</span><br><strong>Entities:</strong> ${displayEntities.length}<br><br>This will:<br>1. Regenerate dab-config.json<br>2. Build Docker image<br>3. Push to Azure Container Registry<br>4. Update App Service`,
+                { input: true, defaultValue: latestVersion, placeholder: 'Enter new version (e.g., v19)' }
+            );
+            
+            if (!version || version.trim() === '') return;
+            
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressStatus = document.getElementById('progressStatus');
+            
+            progressContainer.style.display = 'block';
+            
+            try {
+                console.log('Starting deployment...', { version, apiUrl: API_URL });
+                
+                // Real-time progress via polling /api/deploy/status
+                progressFill.style.width = '0%';
+                progressFill.textContent = '0%';
+                progressStatus.innerHTML = '<div class="spinner"></div> Starting deployment...';
+
+                const deployPromise = fetch(`${API_URL}/deploy`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ version: version })
+                });
+
+                // Poll every second for REAL step updates
+                const pollInterval = setInterval(async () => {
+                    try {
+                        const sr = await fetch(`${API_URL}/deploy/status`);
+                        if (!sr.ok) return;
+                        const s = await sr.json();
+                        if (s.progress !== undefined) {
+                            progressFill.style.width = s.progress + '%';
+                            progressFill.textContent = s.progress + '%';
+                        }
+                        if (s.step) {
+                            const d = s.detail ? '<br><small style="color:#9ca3af">' + s.detail + '</small>' : '';
+                            progressStatus.innerHTML = '<div class="spinner"></div> [' + (s.time||'') + '] ' + s.step + d;
+                        }
+                    } catch(e) {}
+                }, 1000);
+
+                const response = await deployPromise;
+                clearInterval(pollInterval);
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    // Show completion
+                    progressFill.style.width = '100%';
+                    progressFill.textContent = '100%';
+                    progressStatus.innerHTML = '<div class="spinner"></div>Deployment complete!';
+                    
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                        progressFill.style.width = '0%';
+                        showToast(`✅ Deployment ${version} completed successfully!\nTotal entities deployed: ${displayEntities.length}`, 'success');
+                    }, 2000);
+                } else {
+                    progressContainer.style.display = 'none';
+                    showToast(`❌ ${data.message || 'Deployment failed'}`, 'error');
+                }
+            } catch (error) {
+                console.error('Deployment error:', error);
+                progressContainer.style.display = 'none';
+                showToast(`❌ Failed to deploy: ${error.message}`, 'error');
+            }
+        }
+
+        // ESC key closes modals and dialogs; Enter confirms dialog
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('apiEntityDropdown').style.display === 'block') {
+                    hideApiEntityList();
+                } else if (document.getElementById('dialogOverlay').style.display === 'flex') {
+                    closeDialog();
+                } else if (document.getElementById('addModal').style.display === 'flex') {
+                    closeAddModal();
+                } else if (document.getElementById('apiExplorerModal').style.display === 'flex') {
+                    closeApiExplorer();
+                }
+            }
+            if (e.key === 'Enter' && document.getElementById('dialogOverlay').style.display === 'flex') {
+                confirmDialog();
+            }
+        });
+
+        // Close API entity dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const search = document.getElementById('apiEntitySearch');
+            const dropdown = document.getElementById('apiEntityDropdown');
+            if (search && dropdown && !search.contains(e.target) && !dropdown.contains(e.target)) {
+                hideApiEntityList();
+            }
+        });
+
+        // API Explorer Functions
+        let _apiDropdownOpen = false;
+        let _apiHighlightIndex = -1;
+
+        function openApiExplorer() {
+            const modal = document.getElementById('apiExplorerModal');
+            document.getElementById('apiEntitySearch').value = '';
+            document.getElementById('apiEntitySelect').value = '';
+            document.getElementById('apiEntityDropdown').style.display = 'none';
+            document.getElementById('apiEndpointsContainer').style.display = 'none';
+            document.getElementById('apiTestResult').style.display = 'none';
+            modal.style.display = 'flex';
+            setTimeout(() => document.getElementById('apiEntitySearch').focus(), 150);
+        }
+
+        function renderApiEntityList(filter) {
+            const dropdown = document.getElementById('apiEntityDropdown');
+            _apiHighlightIndex = -1;
+            const filtered = currentEntities
+                .filter(e => e.name !== 'API_Master_AKA' && e.name.toLowerCase().includes(filter.toLowerCase()));
+            if (filtered.length === 0) {
+                dropdown.innerHTML = '<div style="padding:10px 14px;color:#6b7280;font-size:13px;">No entities found</div>';
+            } else {
+                dropdown.innerHTML = filtered.map((e, i) => `
+                    <div class="api-drop-item" data-name="${e.name}" data-index="${i}"
+                         onmousedown="selectApiEntity('${e.name.replace(/'/g,"\\'")}',event)"
+                         style="padding:9px 14px;cursor:pointer;color:#e5e7eb;font-size:13px;border-bottom:1px solid #2d3748;"
+                         onmouseover="highlightApiItem(this)" onmouseout="unhighlightApiItem(this)">
+                        ${e.name}
+                    </div>`).join('');
+            }
+        }
+
+        function highlightApiItem(el) { el.style.background = '#374151'; }
+        function unhighlightApiItem(el) { el.style.background = ''; }
+
+        function filterApiEntityList() {
+            const search = document.getElementById('apiEntitySearch').value;
+            renderApiEntityList(search);
+            document.getElementById('apiEntityDropdown').style.display = 'block';
+            _apiDropdownOpen = true;
+            // If user clears the search, hide endpoints
+            if (!search.trim()) {
+                document.getElementById('apiEntitySelect').value = '';
+                document.getElementById('apiEndpointsContainer').style.display = 'none';
+            }
+        }
+
+        function showApiEntityList() {
+            renderApiEntityList(document.getElementById('apiEntitySearch').value);
+            document.getElementById('apiEntityDropdown').style.display = 'block';
+            _apiDropdownOpen = true;
+        }
+
+        function hideApiEntityList() {
+            document.getElementById('apiEntityDropdown').style.display = 'none';
+            _apiDropdownOpen = false;
+        }
+
+        function handleApiEntityKey(e) {
+            const dropdown = document.getElementById('apiEntityDropdown');
+            const items = dropdown.querySelectorAll('.api-drop-item');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                _apiHighlightIndex = Math.min(_apiHighlightIndex + 1, items.length - 1);
+                items.forEach((el, i) => el.style.background = i === _apiHighlightIndex ? '#374151' : '');
+                if (items[_apiHighlightIndex]) items[_apiHighlightIndex].scrollIntoView({ block: 'nearest' });
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                _apiHighlightIndex = Math.max(_apiHighlightIndex - 1, 0);
+                items.forEach((el, i) => el.style.background = i === _apiHighlightIndex ? '#374151' : '');
+                if (items[_apiHighlightIndex]) items[_apiHighlightIndex].scrollIntoView({ block: 'nearest' });
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (_apiHighlightIndex >= 0 && items[_apiHighlightIndex]) {
+                    selectApiEntity(items[_apiHighlightIndex].dataset.name);
+                }
+            } else if (e.key === 'Escape') {
+                hideApiEntityList();
+            }
+        }
+
+        function selectApiEntity(name, event) {
+            if (event) event.preventDefault(); // prevent blur from firing first
+            document.getElementById('apiEntitySearch').value = name;
+            document.getElementById('apiEntitySelect').value = name;
+            hideApiEntityList();
+            loadApiEndpoints();
+        }
+
+        function closeApiExplorer() {
+            document.getElementById('apiExplorerModal').style.display = 'none';
+        }
+
+        const _builtQueryUrls = {};
+
+        function switchApiBase(target) {
+            const input = document.getElementById('apiBaseUrl');
+            if (target === 'local') {
+                input.value = `http://${window.location.hostname}:8090/api`;
+            } else {
+                input.value = 'https://my-dab-app.azurewebsites.net/api';
+            }
+            // Reload endpoints with new base URL
+            loadApiEndpoints();
+        }
+
+        function loadApiEndpoints() {
+            const entity = document.getElementById('apiEntitySelect').value;
+            if (!entity) {
+                document.getElementById('apiEndpointsContainer').style.display = 'none';
+                return;
+            }
+
+            Object.keys(_builtQueryUrls).forEach(k => delete _builtQueryUrls[k]);
+
+            const baseUrl = document.getElementById('apiBaseUrl') 
+                ? document.getElementById('apiBaseUrl').value.trim() 
+                : 'https://my-dab-app.azurewebsites.net/api';
+            const container = document.getElementById('apiEndpointsContainer');
+            const operationsDiv = document.getElementById('apiOperations');
+            const entityUrl = `${baseUrl}/${entity}`;
+            const escapedUrl = entityUrl.replace(/'/g, "\\'");
+
+            const operations = [
+                {
+                    method: 'GET',
+                    color: '#10b981',
+                    title: 'List All Records',
+                    url: entityUrl,
+                    hasFilter: true,
+                    description: 'Retrieve all records. Supports OData: <code style="background:#111827;padding:2px 5px;border-radius:3px;color:#10b981;font-size:11px;">$filter</code> <code style="background:#111827;padding:2px 5px;border-radius:3px;color:#10b981;font-size:11px;">$orderby</code> <code style="background:#111827;padding:2px 5px;border-radius:3px;color:#10b981;font-size:11px;">$top</code> <code style="background:#111827;padding:2px 5px;border-radius:3px;color:#10b981;font-size:11px;">$skip</code>',
+                    examples: [
+                        { label: 'First 10 records', param: '?$top=10' },
+                        { label: 'Order by ID desc', param: '?$orderby=Id desc' },
+                        { label: 'Filter active', param: "?$filter=status eq 'Active'" },
+                        { label: 'Select fields', param: '?$select=Id,name' },
+                        { label: 'Skip first 5', param: '?$skip=5' },
+                        { label: 'First 5 ordered', param: '?$top=5&$orderby=Id desc' }
+                    ]
+                },
+                {
+                    method: 'GET',
+                    color: '#3b82f6',
+                    title: 'Get by Primary Key',
+                    url: `${entityUrl}/[id]`,
+                    hasFilter: false,
+                    description: 'Retrieve a single record by its primary key. Replace <code style="background:#111827;padding:2px 5px;border-radius:3px;color:#3b82f6;font-size:11px;">[id]</code> with the actual ID value.',
+                    examples: null,
+                    inputPlaceholder: 'Enter ID (e.g. /1 or /STORE001)',
+                    inputId: `getByIdInput_${entity}`
+                },
+                {
+                    method: 'POST',
+                    color: '#f59e0b',
+                    title: 'Create New Record',
+                    url: entityUrl,
+                    hasFilter: false,
+                    description: 'Insert a new record. Provide a JSON body with the field values.',
+                    examples: null,
+                    bodyId: `postBodyInput_${entity}`
+                },
+                {
+                    method: 'PUT',
+                    color: '#8b5cf6',
+                    title: 'Update Record (Full)',
+                    url: `${entityUrl}/[id]`,
+                    hasFilter: false,
+                    description: 'Fully replace a record by its primary key. Provide the complete JSON body.',
+                    examples: null,
+                    inputPlaceholder: 'Enter ID (e.g. /1)',
+                    inputId: `putIdInput_${entity}`,
+                    bodyId: `putBodyInput_${entity}`
+                },
+                {
+                    method: 'PATCH',
+                    color: '#06b6d4',
+                    title: 'Update Record (Partial)',
+                    url: `${entityUrl}/[id]`,
+                    hasFilter: false,
+                    description: 'Update only specific fields of a record by its primary key.',
+                    examples: null,
+                    inputPlaceholder: 'Enter ID (e.g. /1)',
+                    inputId: `patchIdInput_${entity}`,
+                    bodyId: `patchBodyInput_${entity}`
+                },
+                {
+                    method: 'DELETE',
+                    color: '#ef4444',
+                    title: 'Delete Record',
+                    url: `${entityUrl}/[id]`,
+                    hasFilter: false,
+                    description: 'Delete a record by its primary key. <strong style="color:#ef4444;">This is irreversible.</strong>',
+                    examples: null,
+                    inputPlaceholder: 'Enter ID (e.g. /1)',
+                    inputId: `deleteIdInput_${entity}`
+                }
+            ];
+
+            let html = '';
+            operations.forEach((op, opIndex) => {
+                const opUrlEsc = op.url.replace(/'/g, "\\'");
+                html += `
+                    <div style="background: #1f2937; border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; border: 1px solid #374151;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                            <span style="background: ${op.color}; color: white; padding: 4px 14px; border-radius: 5px; font-weight: 700; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.05em;">${op.method}</span>
+                            <h4 style="margin: 0; color: #f3f4f6; font-size: 15px; font-weight: 600; flex: 1;">${op.title}</h4>
+                        </div>
+                        <p style="color: #9ca3af; font-size: 13px; margin: 0 0 14px 0; line-height: 1.6;">${op.description}</p>
+
+                        <div style="display: flex; align-items: center; gap: 10px; background: #111827; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #374151;">
+                            <code style="color: #10b981; font-size: 13px; flex: 1; word-break: break-all; font-family: 'Courier New', monospace;">${op.url}</code>
+                            <button class="btn-info" onclick="copyText('${opUrlEsc}')" style="padding: 6px 14px; font-size: 12px; white-space: nowrap; flex-shrink: 0;">
+                                &#128203; Copy URL
+                            </button>
+                        </div>`;
+
+                // --- Filter Builder (GET List only) ---
+                if (op.hasFilter) {
+                    html += `
+                        <div style="margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span style="color: #d1d5db; font-size: 13px; font-weight: 600;">&#128295; Filter Builder</span>
+                                <button onclick="loadFieldNames(${opIndex}, getLocalUrl('${entity}'))" class="btn-info" style="padding: 5px 12px; font-size: 12px;">
+                                    Load Fields
+                                </button>
+                                <span id="fieldStatus_${opIndex}" style="color: #6b7280; font-size: 12px;"></span>
+                            </div>
+                            <div style="background: #111827; padding: 14px; border-radius: 8px; border: 1px solid #374151; margin-bottom: 12px;">
+                                <div style="display: grid; grid-template-columns: 1fr 110px 1fr; gap: 8px; margin-bottom: 8px;">
+                                    <select id="filterField_${opIndex}"
+                                        style="padding: 7px 10px; background: #1f2937; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 12px; outline: none;">
+                                        <option value="">Click "Load Fields" first...</option>
+                                    </select>
+                                    <select id="filterOp_${opIndex}"
+                                        style="padding: 7px 10px; background: #1f2937; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 12px; outline: none;">
+                                        <option value="eq">equals</option>
+                                        <option value="ne">not equals</option>
+                                        <option value="gt">greater than</option>
+                                        <option value="lt">less than</option>
+                                        <option value="ge">&ge; greater/equal</option>
+                                        <option value="le">&le; less/equal</option>
+                                        <option value="contains">contains</option>
+                                    </select>
+                                    <input type="text" id="filterValue_${opIndex}" placeholder="Value (e.g., 0000200003)"
+                                        style="padding: 7px 10px; background: #1f2937; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 12px; outline: none;">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 90px; gap: 8px; margin-bottom: 10px;">
+                                    <input type="number" id="filterTop_${opIndex}" placeholder="Limit (e.g. 100)" min="1"
+                                        style="padding: 7px 10px; background: #1f2937; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 12px; outline: none;">
+                                    <select id="filterOrderBy_${opIndex}"
+                                        style="padding: 7px 10px; background: #1f2937; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 12px; outline: none;">
+                                        <option value="">Order by field...</option>
+                                    </select>
+                                    <select id="filterOrderDir_${opIndex}"
+                                        style="padding: 7px 10px; background: #1f2937; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 12px; outline: none;">
+                                        <option value="asc">&#8593; asc</option>
+                                        <option value="desc">&#8595; desc</option>
+                                    </select>
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <button onclick="buildFilter(${opIndex}, getLiveUrl('${entity}'))" class="btn-info" style="flex: 1; padding: 7px 12px; font-size: 12px;">
+                                        &#9881; Build Query URL
+                                    </button>
+                                    <button onclick="clearFilter(${opIndex})" class="btn-warning" style="padding: 7px 14px; font-size: 12px;">
+                                        &#10005; Clear
+                                    </button>
+                                </div>
+                                <div id="builtQuery_${opIndex}" style="display: none; margin-top: 12px; padding: 10px 12px; background: #0a1628; border-radius: 6px; border: 1px solid #10b981;">
+                                    <div style="color: #6ee7b7; font-size: 11px; margin-bottom: 6px; font-weight: 600;">&#10003; Generated URL &mdash; click Test below to use it:</div>
+                                    <div style="display: flex; align-items: flex-start; gap: 8px;">
+                                        <code id="queryUrl_${opIndex}" style="color: #10b981; font-size: 12px; word-break: break-all; flex: 1; line-height: 1.6;"></code>
+                                        <button onclick="copyText(document.getElementById('queryUrl_${opIndex}').textContent)" class="btn-info" style="padding: 4px 10px; font-size: 11px; flex-shrink: 0; white-space: nowrap;">&#128203; Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="background: #111827; padding: 12px 14px; border-radius: 8px; border: 1px solid #374151;">
+                                <div style="color: #9ca3af; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">&#9889; Quick Examples:</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">`;
+
+                    op.examples.forEach(ex => {
+                        const epEsc = (op.url + ex.param).replace(/'/g, "\\'");
+                        html += `
+                                    <div style="display: flex; align-items: center; justify-content: space-between; background: #1f2937; padding: 7px 10px; border-radius: 6px; gap: 8px;">
+                                        <span style="color: #9ca3af; font-size: 12px;">${ex.label}</span>
+                                        <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                                            <code style="color: #10b981; font-size: 11px; font-family: 'Courier New', monospace; white-space: nowrap;">${ex.param}</code>
+                                            <button onclick="copyText('${epEsc}')" title="Copy full URL" style="background: #374151; border: none; color: #9ca3af; cursor: pointer; border-radius: 4px; padding: 2px 6px; font-size: 11px;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#9ca3af'">&#128203;</button>
+                                        </div>
+                                    </div>`;
+                    });
+                    html += `
+                                </div>
+                            </div>
+                        </div>`;
+                }
+
+                // --- ID input field (GET by ID, PUT, PATCH, DELETE) ---
+                if (op.inputId) {
+                    html += `
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; color: #9ca3af; font-size: 12px; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                &#128273; Primary Key / ID
+                            </label>
+                            <input type="text" id="${op.inputId}" placeholder="${op.inputPlaceholder || 'Enter ID (e.g. /1 or /STORE001)'}"
+                                style="width: 100%; padding: 9px 12px; background: #111827; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 13px; font-family: 'Courier New', monospace; outline: none; box-sizing: border-box;"
+                                onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#4b5563'">
+                            <p style="color: #6b7280; font-size: 11px; margin: 5px 0 0 0;">&#128204; Will be appended to the URL: <code style="color:#a5b4fc;">${op.url}</code></p>
+                        </div>`;
+                }
+
+                // --- JSON body textarea (POST, PUT, PATCH) ---
+                if (op.bodyId) {
+                    html += `
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; color: #9ca3af; font-size: 12px; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                &#123;&#125; Request Body (JSON)
+                            </label>
+                            <textarea id="${op.bodyId}" rows="6" placeholder='{\n  "FieldName": "Value",\n  "AnotherField": 123\n}'
+                                style="width: 100%; padding: 9px 12px; background: #111827; border: 1px solid #4b5563; border-radius: 6px; color: #e5e7eb; font-size: 12px; font-family: 'Courier New', monospace; resize: vertical; outline: none; box-sizing: border-box; line-height: 1.6;"
+                                onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='#4b5563'"></textarea>
+                            <p style="color: #6b7280; font-size: 11px; margin: 5px 0 0 0;">&#9888; Must be valid JSON. Omit fields you don't want to update for PATCH.</p>
+                        </div>`;
+                }
+
+                // --- Test button (passes inputId and bodyId via data attributes) ---
+                const inputIdVal = op.inputId || '';
+                const bodyIdVal  = op.bodyId  || '';
+                html += `
+                        <button id="testBtn_${opIndex}" class="btn-success"
+                            onclick="runTest('${op.method}', '${entity}', ${opIndex}, '${inputIdVal}', '${bodyIdVal}')"
+                            style="width: 100%; padding: 11px; font-size: 14px; font-weight: 600; letter-spacing: 0.02em;">
+                            &#9654; Test ${op.title}
+                        </button>
+                    </div>`;
+            });
+
+            operationsDiv.innerHTML = html;
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+        }
+
+        // Wrapper that always reads the current base URL before testing
+        function runTest(method, entityName, opIndex, inputId, bodyId) {
+            inputId = inputId || '';
+            bodyId  = bodyId  || '';
+
+            const baseUrl = document.getElementById('apiBaseUrl').value.trim();
+            let url = `${baseUrl}/${entityName}`;
+
+            // If a built query URL exists and is visible (GET List filter), use that instead
+            const builtQueryDiv = document.getElementById(`builtQuery_${opIndex}`);
+            const builtQueryEl  = document.getElementById(`queryUrl_${opIndex}`);
+            if (builtQueryDiv && builtQueryEl && builtQueryDiv.style.display !== 'none') {
+                const builtUrl = builtQueryEl.textContent.trim();
+                if (builtUrl) url = builtUrl;
+            }
+
+            const resultDiv = document.getElementById('apiTestResult');
+            resultDiv.style.display = 'block';
+            document.getElementById('apiTestStatus').innerHTML = '<span style="color:#3b82f6;">&#9203; Sending...</span>';
+            document.getElementById('apiTestRequest').textContent = `${method} ${url}`;
+            document.getElementById('apiTestResponse').textContent = 'Waiting for response...';
+            setTimeout(() => resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+            testApiEndpoint(method, url, inputId, bodyId, opIndex);
+        }
+
+        async function testApiEndpoint(method, url, inputId, bodyInputId, opIndex) {
+            const statusDiv = document.getElementById('apiTestStatus');
+            const requestDiv = document.getElementById('apiTestRequest');
+            const responseDiv = document.getElementById('apiTestResponse');
+
+            try {
+                let body = null;
+
+                // Add ID to URL if provided
+                if (inputId && document.getElementById(inputId)) {
+                    const idValue = document.getElementById(inputId).value.trim();
+                    if (idValue) url += idValue;
+                }
+
+                // Get body for POST/PUT
+                if (bodyInputId && document.getElementById(bodyInputId)) {
+                    const bodyText = document.getElementById(bodyInputId).value.trim();
+                    if (bodyText) {
+                        try { body = JSON.parse(bodyText); }
+                        catch (e) { showToast('Invalid JSON in request body', 'error'); return; }
+                    }
+                }
+
+                // Show loading
+                statusDiv.innerHTML = '<span style="color: #3b82f6;">⏳ Sending request...</span>';
+                requestDiv.textContent = `${method} ${url}${body ? '\n\n' + JSON.stringify(body, null, 2) : ''}`;
+                responseDiv.textContent = 'Waiting for response...';
+
+                // Make request
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const startTime = Date.now();
+                const response = await fetch(url, options);
+                const duration = Date.now() - startTime;
+
+                // Get response
+                let responseData;
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    responseData = await response.json();
+                } else {
+                    responseData = await response.text();
+                }
+
+                // Show result
+                const resultDiv = document.getElementById('apiTestResult');
+                resultDiv.style.display = 'block';
+                const statusColor = response.ok ? '#10b981' : '#ef4444';
+                const statusIcon = response.ok ? '✅' : '❌';
+                statusDiv.innerHTML = `<span style="color: ${statusColor};">${statusIcon} ${response.status} ${response.statusText}</span> <span style="color: #9ca3af; font-size: 12px;">(${duration}ms)</span>`;
+                
+                if (typeof responseData === 'object') {
+                    responseDiv.textContent = JSON.stringify(responseData, null, 2);
+                } else {
+                    responseDiv.textContent = responseData;
+                }
+
+                if (response.ok) {
+                    showToast(`API request successful (${response.status})`, 'success');
+                } else {
+                    showToast(`API request failed (${response.status})`, 'error');
+                }
+
+            } catch (error) {
+                statusDiv.innerHTML = '<span style="color: #ef4444;">❌ Request Failed</span>';
+                responseDiv.textContent = `Error: ${error.message}`;
+                showToast(`Request error: ${error.message}`, 'error');
+            }
+        }
+
+        function copyToClipboard(text) {
+            // Use modern clipboard API if available (HTTPS), fallback for HTTP
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('Copied to clipboard!', 'success');
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast('Copied to clipboard!', 'success');
+            } catch (e) {
+                showToast('Copy failed — please copy manually', 'error');
+            }
+            document.body.removeChild(ta);
+        }
+
+        function copyText(text) {
+            copyToClipboard(text);
+        }
+
+        // Always reads the current base URL + entity — used by Load Fields, Build Filter, Test
+        // Always reads the current base URL + entity — used by Build Filter, Test
+        function getLiveUrl(entityName) {
+            const base = document.getElementById('apiBaseUrl') 
+                ? document.getElementById('apiBaseUrl').value.trim() 
+                : 'https://my-dab-app.azurewebsites.net/api';
+            return `${base}/${entityName}`;
+        }
+
+        // Always uses local Docker for field loading — avoids Azure $top restrictions
+        function getLocalUrl(entityName) {
+            return `http://${window.location.hostname}:8090/api/${entityName}`;
+        }
+
+        async function loadFieldNames(index, baseUrl) {
+            const statusSpan = document.getElementById(`fieldStatus_${index}`);
+            const fieldSelect = document.getElementById(`filterField_${index}`);
+            const orderBySelect = document.getElementById(`filterOrderBy_${index}`);
+            
+            try {
+                statusSpan.textContent = 'Loading fields...';
+                statusSpan.style.color = '#3b82f6';
+                
+                // Try multiple strategies — some DAB views (especially views without PK) reject $top
+                // Strategy: try $top=1, then plain fetch (take first record from response)
+                // For large tables on Azure, prefer Local base URL for field loading
+                let response = null;
+                let lastError = '';
+                const attempts = [
+                    `${baseUrl}?$top=1`,
+                    baseUrl   // fallback — takes first record from full response
+                ];
+                
+                for (const url of attempts) {
+                    try {
+                        const r = await fetch(url);
+                        if (r.ok) { response = r; break; }
+                        lastError = `HTTP ${r.status}`;
+                    } catch(e) { lastError = e.message; }
+                }
+                
+                if (!response) throw new Error(`Could not load fields: ${lastError}. Try switching to Local base URL.`);
+                
+                const data = await response.json();
+                let fields = [];
+                let record = null;
+                
+                // Extract the first record from various response formats
+                if (data.value && Array.isArray(data.value) && data.value.length > 0) {
+                    // OData format: {"value": [...]}
+                    record = data.value[0];
+                } else if (Array.isArray(data) && data.length > 0) {
+                    // Plain array: [...]
+                    record = data[0];
+                } else if (typeof data === 'object' && !Array.isArray(data) && Object.keys(data).length > 0) {
+                    // Single object: {...}
+                    // Check if it has a 'value' property that's not an array
+                    if (data.value && typeof data.value === 'object' && !Array.isArray(data.value)) {
+                        record = data.value;
+                    } else {
+                        record = data;
+                    }
+                }
+                
+                if (record) {
+                    fields = Object.keys(record);
+                }
+                
+                if (fields.length === 0) {
+                    throw new Error('No fields found in the response. Try fetching data first.');
+                }
+                
+                // Sort fields alphabetically for easier selection
+                fields.sort();
+                
+                // Populate field dropdown
+                fieldSelect.innerHTML = '<option value="">Select a field...</option>';
+                orderBySelect.innerHTML = '<option value="">Order by field...</option>';
+                
+                fields.forEach(field => {
+                    const option1 = document.createElement('option');
+                    option1.value = field;
+                    option1.textContent = field;
+                    fieldSelect.appendChild(option1);
+                    
+                    const option2 = document.createElement('option');
+                    option2.value = field;
+                    option2.textContent = field;
+                    orderBySelect.appendChild(option2);
+                });
+                
+                statusSpan.textContent = `✓ ${fields.length} fields loaded`;
+                statusSpan.style.color = '#10b981';
+                showToast(`Loaded ${fields.length} fields from API`, 'success');
+                
+            } catch (error) {
+                statusSpan.textContent = '✗ Failed to load';
+                statusSpan.style.color = '#ef4444';
+                showToast(`Failed to load fields: ${error.message}`, 'error');
+            }
+        }
+
+        function buildFilter(index, baseUrl) {
+            const field = document.getElementById(`filterField_${index}`).value.trim();
+            const op = document.getElementById(`filterOp_${index}`).value;
+            const value = document.getElementById(`filterValue_${index}`).value.trim();
+            const top = document.getElementById(`filterTop_${index}`).value.trim();
+            const orderBy = document.getElementById(`filterOrderBy_${index}`).value.trim();
+            const orderDir = document.getElementById(`filterOrderDir_${index}`).value;
+
+            let queryParts = [];
+
+            // Build filter
+            if (field && value) {
+                let filterValue = value;
+                
+                // Handle string values (wrap in quotes)
+                if (isNaN(value)) {
+                    filterValue = `'${value}'`;
+                }
+
+                // Build filter based on operator
+                if (op === 'contains') {
+                    queryParts.push(`$filter=contains(${field}, ${filterValue})`);
+                } else {
+                    queryParts.push(`$filter=${field} ${op} ${filterValue}`);
+                }
+            }
+
+            // Add top
+            if (top) {
+                queryParts.push(`$top=${top}`);
+            }
+
+            // Add orderby
+            if (orderBy) {
+                queryParts.push(`$orderby=${orderBy} ${orderDir}`);
+            }
+
+            // Build final URL
+            if (queryParts.length > 0) {
+                const queryString = queryParts.join('&');
+                const fullUrl = `${baseUrl}?${queryString}`;
+                
+                // Show the built query
+                document.getElementById(`builtQuery_${index}`).style.display = 'block';
+                document.getElementById(`queryUrl_${index}`).textContent = fullUrl;
+                
+                showToast('Query built! Click "▶ Test This Endpoint" to execute it', 'info');
+            } else {
+                showToast('Please enter at least a field, value, or limit', 'error');
+            }
+        }
+
+        function clearFilter(index) {
+            document.getElementById(`filterField_${index}`).value = '';
+            document.getElementById(`filterValue_${index}`).value = '';
+            document.getElementById(`filterTop_${index}`).value = '';
+            document.getElementById(`filterOrderBy_${index}`).value = '';
+            document.getElementById(`builtQuery_${index}`).style.display = 'none';
+            showToast('Filter cleared', 'info');
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+

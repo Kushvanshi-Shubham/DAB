@@ -1,0 +1,362 @@
+﻿[
+    {
+        "name":  "Product_Master",
+        "real-name":  "[dbo].[VW_PRODUCT_MST_NEW]"
+    },
+    {
+        "name":  "ET_Supplier_Master",
+        "real-name":  "[dbo].[DY_SUPPLIER_MST]"
+    },
+    {
+        "name":  "ET_ZMC_SIZE_MASTER_RFC",
+        "real-name":  "[dbo].[ET_ZMC_SIZE_MASTER_RFC]"
+    },
+    {
+        "name":  "BROADER_MENU",
+        "real-name":  "[dbo].vw_BROADER_MENU_DATA"
+    },
+    {
+        "name":  "ET_SALES_DATA",
+        "real-name":  "[dbo].[DAILY_SALE_DATA_GEN_ART_CLR_WISE]"
+    },
+    {
+        "name":  "VIEW_SALE_GEN_CLR_ART_WISE",
+        "real-name":  "[dbo].[DY_SALE_DATA_GEN_ART_WISE]"
+    },
+    {
+        "name":  "DAILY_SALE_DATA_GEN_ART_WISE",
+        "real-name":  "[dbo].[DY_DAILY_SALE_DATA_GEN_ART_WISE]"
+    },
+    {
+        "name":  "DAILY_SALE_DATA_GEN_CLR_WISE",
+        "real-name":  "[dbo].[DAILY_SALE_DATA_GEN_CLR_WISE]"
+    },
+    {
+        "name":  "ET_ARTICLE_GEN_CLR_WISE",
+        "real-name":  "[dbo].ET_ARTICLE_GEN_CLR_WISE_MASTER"
+    },
+    {
+        "name":  "ET_VARIANT_ART_WISE",
+        "real-name":  "[dbo].ET_VAR_ARTICLE_MASTER"
+    },
+    {
+        "name":  "ZSRM_VEND_PAYMENT_INFO",
+        "real-name":  "[dbo].ZSRM_VEND_PAYMENT_INFO"
+    },
+    {
+        "name":  "CO_BGT_AK_CO_MJ_CLR_ALL_BGT",
+        "real-name":  "[dbo].CO_BGT_AK_CO_MJ_CLR_ALL_BGT"
+    },
+    {
+        "name":  "CO_BGT_AK_CO_MJ_SZ_ALL_BGT",
+        "real-name":  "[dbo].CO_BGT_AK_CO_MJ_SZ_ALL_BGT"
+    },
+    {
+        "name":  "CO_BGT_AK_ST_MJ_CLR_ALL_BGT",
+        "real-name":  "[dbo].CO_BGT_AK_ST_MJ_CLR_ALL_BGT"
+    },
+    {
+        "name":  "CO_BGT_AK_ST_MJ_SZ_ALL_BGT",
+        "real-name":  "[dbo].CO_BGT_AK_ST_MJ_SZ_ALL_BGT"
+    },
+    {
+        "name":  "SALE_DATA_CM_AKA",
+        "real-name":  "[dbo].SALE_DATA_CM_AKA"
+    },
+    {
+        "name":  "Store_plant_master_aka",
+        "real-name":  "[dbo].Store_plant_master_aka"
+    },
+    {
+        "name":  "Sale_Data_L_2Years_MAJ_CAT_aka",
+        "real-name":  "[dbo].[Sale_Data_L_2Years_MAJ_CAT_aka]"
+    },
+    {
+        "name":  "Sale_Data_L_2Years_STORE_aka",
+        "real-name":  "[dbo].[Sale_Data_L_2Years_STORE_aka]"
+    },
+    {
+        "name":  "STORE_PLANT_MASTER_AKA",
+        "real-name":  "[dbo].[STORE_PLANT_MASTER_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_AKA]"
+    },
+    {
+        "name":  "CO_BGT_AK_CO_MJ_M_MVGR_ALL_BGT_AKA",
+        "real-name":  "[dbo].[CO_BGT_AK_CO_MJ_M_MVGR_ALL_BGT_AKA]"
+    },
+    {
+        "name":  "CO_BGT_AK_CO_MJ_VND_ALL_BGT_AKA",
+        "real-name":  "[dbo].[CO_BGT_AK_CO_MJ_VND_ALL_BGT_AKA]"
+    },
+    {
+        "name":  "SALE_DATA_L_2_YEAR_MONTH_AKA",
+        "real-name":  "[dbo].[SALE_DATA_L_2_YEAR_MONTH_AKA]"
+    },
+    {
+        "name":  "API_Master_AKA",
+        "real-name":  "[dbo].[API_Master_AKA]"
+    },
+    {
+        "name":  "VW_GRC_REPORT_NEW",
+        "real-name":  "[dbo].[VW_GRC_REPORT_NEW]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_CLR_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_CLR_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_FAB_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_FAB_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_MACRO_MVGR_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_MACRO_MVGR_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_MICRO_MVGR_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_MICRO_MVGR_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_MRP_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_MRP_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_RNG_SEG_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_RNG_SEG_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_SIZE_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_SIZE_AKA]"
+    },
+    {
+        "name":  "INVT_ST_MJ_CAT_VND_AKA",
+        "real-name":  "[dbo].[INVT_ST_MJ_CAT_VND_AKA]"
+    },
+    {
+        "name":  "MSA_STOCK_DATA_AKA",
+        "real-name":  "[dbo].[MSA_STOCK_DATA_AKA]"
+    },
+    {
+        "name":  "COMPANY_STOCK_MASTER_AKA",
+        "real-name":  "[dbo].[COMPANY_STOCK_MASTER_AKA]"
+    },
+    {
+        "name":  "ET_VEND_DEDUCTION",
+        "real-name":  "[dbo].[ET_VEND_DEDUCTION]"
+    },
+    {
+        "name":  "ET_VEND_PAY",
+        "real-name":  "[dbo].[ET_VEND_PAY]"
+    },
+    {
+        "name":  "ET_ZPO_MODIFICATION",
+        "real-name":  "[dbo].[ET_ZPO_MODIFICATION]"
+    },
+    {
+        "name":  "ET_ZPO_MODIFY_REASON",
+        "real-name":  "[dbo].[ET_ZPO_MODIFY_REASON]"
+    },
+    {
+        "name":  "ET_VEND_DEDUCTION_AKA",
+        "real-name":  "[dbo].[ET_VEND_DEDUCTION_AKA]"
+    },
+    {
+        "name":  "ET_ZSRM_ROUTING_LOG_RFC",
+        "real-name":  "[dbo].[ET_ZSRM_ROUTING_LOG_RFC]"
+    },
+    {
+        "name":  "INVT_DC_MJ_CAT_VND_AKA",
+        "real-name":  "[dbo].[INVT_DC_MJ_CAT_VND_AKA]"
+    },
+    {
+        "name":  "INVT_DC_MJ_AKA",
+        "real-name":  "[dbo].[INVT_DC_MJ_AKA]"
+    },
+    {
+        "name":  "PO_DATA_AKA",
+        "real-name":  "[dbo].[PO_DATA_AKA]"
+    },
+    {
+        "name":  "COMPANY_STOCK_GEN_ART_CLR_MASTER_AKA",
+        "real-name":  "[dbo].[COMPANY_STOCK_GEN_ART_CLR_MASTER_AKA]"
+    },
+    {
+        "name":  "ET_ZMM_CITY_TRNS_RFC",
+        "real-name":  "[dbo].[ET_ZMM_CITY_TRNS_RFC]"
+    },
+    {
+        "name":  "vw_PO_PENDING_New",
+        "real-name":  "[dbo].[vw_PO_PENDING_New]"
+    },
+    {
+        "name":  "C_ART_DATA",
+        "real-name":  "[dbo].[C_ART_DATA]"
+    },
+    {
+        "name":  "L_ARTICLE_Sheet1",
+        "real-name":  "[dbo].[L_ARTICLE_Sheet1]"
+    },
+    {
+        "name":  "MRDC_VAR_ART_AKA",
+        "real-name":  "[dbo].[MRDC_VAR_ART_AKA]"
+    },
+    {
+        "name":  "ET_ZFI_FB65_DISCOUNT_RFC",
+        "real-name":  "[dbo].[ET_ZFI_FB65_DISCOUNT_RFC]"
+    },
+    {
+        "name":  "ET_ZART_BAR_DETAIL_RFC",
+        "real-name":  "[dbo].[ET_ZART_BAR_DETAIL_RFC]"
+    },
+    {
+        "name":  "HHT_VERIENT_ART",
+        "real-name":  "[dbo].[HHT_VERIENT_ART]"
+    },
+    {
+        "name":  "RETAIL_BAR_CODE_AKA",
+        "real-name":  "[dbo].[RETAIL_BAR_CODE_AKA]"
+    },
+    {
+        "name":  "ET_PUR_DATA_RPT_AKA",
+        "real-name":  "[dbo].[ET_PUR_DATA_RPT_AKA]"
+    },
+    {
+        "name":  "TNA_REPORT",
+        "real-name":  "[dbo].[TNA_REPORT]"
+    },
+    {
+        "name":  "Task_Tracker",
+        "real-name":  "[dbo].[Task_Tracker]"
+    },
+    {
+        "name":  "BIN_MOV_ART_WISE_AKA",
+        "real-name":  "[dbo].[BIN_MOV_ART_WISE_AKA]"
+    },
+    {
+        "name":  "Issue_Tracker",
+        "real-name":  "[dbo].[Issue_Tracker]"
+    },
+    {
+        "name":  "Karma_Detailed_Report",
+        "real-name":  "[dbo].[Karma_Detailed_Report]"
+    },
+    {
+        "name":  "Karma_Summary_Report",
+        "real-name":  "[dbo].[Karma_Summary_Report]"
+    },
+    {
+        "name":  "GET_VV_ART_DATA_AKA",
+        "real-name":  "[dbo].[GET_VV_ART_DATA_AKA]"
+    },
+    {
+        "name":  "ET_ZPO_MODIFICATION_RFC_AKA",
+        "real-name":  "[dbo].[ET_ZPO_MODIFICATION_RFC_AKA]"
+    },
+    {
+        "name":  "VW_LYSP_DAY_MAPPING",
+        "real-name":  "[dbo].[VW_LYSP_DAY_MAPPING]"
+    },
+    {
+        "name":  "VW_ET_SALES_DATA_AKA",
+        "real-name":  "[dbo].[VW_ET_SALES_DATA_AKA]"
+    },
+    {
+        "name":  "STORE_MAJ_CAT_BUDGET_FIXTURE_AKA",
+        "real-name":  "[dbo].[STORE_MAJ_CAT_BUDGET_FIXTURE_AKA]"
+    },
+    {
+        "name":  "ET_ZFBL1N_PAYMENT_RFC",
+        "real-name":  "[dbo].[ET_ZFBL1N_PAYMENT_RFC]"
+    },
+    {
+        "name":  "VW_GRC_REPORT_AKA",
+        "real-name":  "[dbo].[VW_GRC_REPORT_AKA]"
+    },
+    {
+        "name":  "ET_ZCT04_CHAR_GET_RFC",
+        "real-name":  "[dbo].[ET_ZCT04_CHAR_GET_RFC]"
+    },
+    {
+        "name":  "STORE_ARTICLE_INVENTORY_AKA",
+        "real-name":  "[dbo].[STORE_ARTICLE_INVENTORY_AKA]"
+    },
+    {
+        "name":  "L_12_GEN_ART_SALE_DATA_AKA",
+        "real-name":  "[dbo].[L_12_GEN_ART_SALE_DATA_AKA]"
+    },
+    {
+        "name":  "L_12_MONTH_WISE_SALE__AKA",
+        "real-name":  "[dbo].[L_12_MONTH_WISE_SALE__AKA]"
+    },
+    {
+        "name":  "TBL_16_RETAIL_GND_BGT_FORMAT_Sheet1",
+        "real-name":  "[dbo].[TBL_16_RETAIL_GND_BGT_FORMAT_Sheet1]"
+    },
+    {
+        "name":  "ET_ZADVANCE_PAYMENT",
+        "real-name":  "[dbo].[ET_ZADVANCE_PAYMENT]"
+    },
+    {
+        "name":  "STORE_GEN_ART_COL_INVENTORY_AKA",
+        "real-name":  "[dbo].[STORE_GEN_ART_COL_INVENTORY_AKA]"
+    },
+    {
+        "name":  "CO_BGT_AK_ST_MJ_ALL_BGT",
+        "real-name":  "[dbo].[CO_BGT_AK_ST_MJ_ALL_BGT]"
+    },
+    {
+        "name":  "ROI_TREND_DATA_AKA",
+        "real-name":  "[dbo].[ROI_TREND_DATA_AKA]"
+    },
+    {
+        "name":  "CO_BGT_AK_CO_MJ_ALL_BGT",
+        "real-name":  "[dbo].[CO_BGT_AK_CO_MJ_ALL_BGT]"
+    },
+    {
+        "name":  "CO_BGT_AK_CO_MJ_FAB_ALL_BGT_AKA",
+        "real-name":  "[dbo].[CO_BGT_AK_CO_MJ_FAB_ALL_BGT_AKA]"
+    },
+    {
+        "name":  "VW_ET_SALES_ST_GEN_CLR_DATA_AKA",
+        "real-name":  "[dbo].[VW_ET_SALES_ST_GEN_CLR_DATA_AKA]"
+    },
+    {
+        "name":  "ARTICLE_EAN_NUMBER_AKA",
+        "real-name":  "[dbo].[ARTICLE_EAN_NUMBER_AKA]"
+    },
+    {
+        "name":  "DA_ARTICLE_Sheet1",
+        "real-name":  "[dbo].[DA_ARTICLE_Sheet1]"
+    },
+    {
+        "name":  "VW_PRODUCT_BARCODE_AKA",
+        "real-name":  "[dbo].[VW_PRODUCT_BARCODE_AKA]"
+    },
+    {
+        "name":  "BillLineItems",
+        "real-name":  "[dbo].[BillLineItems]"
+    },
+    {
+        "name":  "ET_ZFI_PI_DATA_RFC",
+        "real-name":  "[dbo].[ET_ZFI_PI_DATA_RFC]"
+    },
+    {
+        "name":  "ET_ZRFC_FBL1N_DEDUCTION",
+        "real-name":  "[dbo].[ET_ZRFC_FBL1N_DEDUCTION]"
+    },
+    {
+        "name":  "VW_STORE_GEN_VAR_ART_COL_INVENTORY_AKA",
+        "real-name":  "[dbo].[VW_STORE_GEN_VAR_ART_COL_INVENTORY_AKA]"
+    },
+    {
+        "name":  "Bills",
+        "real-name":  "[dbo].[Bills]"
+    },
+    {
+        "name":  "VV_GEN_ART_CLR_STK_AKA",
+        "real-name":  "[dbo].[VV_GEN_ART_CLR_STK_AKA]"
+    }
+]
