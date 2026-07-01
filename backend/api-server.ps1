@@ -247,25 +247,18 @@ while ($listener.IsListening) {
                     Copy-Item ".env.azure" "$buildDir\.env" -Force
                     Copy-Item "Dockerfile" "$buildDir\Dockerfile.linux" -Force
 
-                    Write-DeployStatus -Progress 20 -Step "Logging into Azure Container Registry..." -Detail "az acr login"
                     Push-Location $buildDir
-                    az acr login --name $acrName 2>&1 | Out-Null
 
-                    Write-DeployStatus -Progress 25 -Step "Building Docker image..." -Detail "docker build --no-cache ${acrServer}/${imageName}:${version}"
-                    $buildOutput = docker build --no-cache -f Dockerfile.linux -t "${acrServer}/${imageName}:${version}" . 2>&1
-                    $buildOutput | ForEach-Object {
-                        if ($_ -match "Step (\d+)/(\d+)") {
-                            $stepNum = [int]$Matches[1]
-                            $totalSteps = [int]$Matches[2]
-                            $buildPct = 25 + [math]::Round(($stepNum / $totalSteps) * 40)
-                            Write-DeployStatus -Progress $buildPct -Step "Building Docker image... (Step $stepNum/$totalSteps)" -Detail "$_"
-                        }
-                    }
-                    if ($LASTEXITCODE -ne 0) { throw "Docker build failed: $($buildOutput | Select-Object -Last 5 | Out-String)" }
-
-                    Write-DeployStatus -Progress 65 -Step "Pushing image to Azure Container Registry..." -Detail "docker push ${acrServer}/${imageName}:${version}"
-                    $pushOutput = docker push "${acrServer}/${imageName}:${version}" 2>&1
-                    if ($LASTEXITCODE -ne 0) { throw "Docker push failed: $($pushOutput | Select-Object -Last 5 | Out-String)" }
+                    # PERMANENT FIX (2026-06-30): build + push SERVER-SIDE in ACR.
+                    # The old flow (az acr login -> docker build -> docker push) stalled the
+                    # background job at "az acr login" whenever Docker Desktop wasn't running,
+                    # the job's az session wasn't live, or arsv2acr's AAD token auth failed
+                    # after the 2026-06-25 registry recreate. 'az acr build' has none of those
+                    # dependencies: it uploads the build context and builds inside Azure.
+                    Write-DeployStatus -Progress 30 -Step "Building image in Azure Container Registry..." -Detail "az acr build -r ${acrName} -t ${imageName}:${version}"
+                    $buildOutput = az acr build --registry $acrName --image "${imageName}:${version}" --file Dockerfile.linux . 2>&1
+                    if ($LASTEXITCODE -ne 0) { throw "az acr build failed: $($buildOutput | Select-Object -Last 8 | Out-String)" }
+                    Write-DeployStatus -Progress 65 -Step "Image built and pushed to ACR" -Detail "${acrServer}/${imageName}:${version}"
 
                     Write-DeployStatus -Progress 80 -Step "Updating Azure App Service..." -Detail "Setting container image to ${version}"
                     az webapp config container set `
