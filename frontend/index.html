@@ -569,6 +569,26 @@
             font-weight: 500;
         }
 
+        /* Verified-live success + failure states for the deploy bar */
+        .progress-fill.deploy-success {
+            background: linear-gradient(90deg, #059669 0%, #10b981 50%, #34d399 100%);
+            box-shadow: 0 0 22px rgba(16, 185, 129, 0.7);
+            animation: livePulse 1.2s ease-in-out infinite;
+        }
+        .progress-fill.deploy-fail {
+            background: linear-gradient(90deg, #b91c1c 0%, #ef4444 100%);
+            box-shadow: 0 0 18px rgba(239, 68, 68, 0.6);
+            animation: none;
+        }
+        @keyframes livePulse {
+            0%, 100% { box-shadow: 0 0 14px rgba(16,185,129,0.5); }
+            50%      { box-shadow: 0 0 30px rgba(16,185,129,0.95); }
+        }
+        #confettiCanvas {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; display: none;
+        }
+
         .icon {
             width: 20px;
             height: 20px;
@@ -1239,7 +1259,7 @@
             
             const version = await showDialog(
                 '<svg class="icon-lg" viewBox="0 0 24 24" style="color: #3b82f6;"><path fill="currentColor" d="M4,14H6.14L7.41,6.62C7.55,5.95 8.09,5.5 8.78,5.5H10.22C10.91,5.5 11.45,5.95 11.59,6.62L12.86,14H15C16.1,14 17,14.9 17,16V20C17,21.1 16.1,22 15,22H9C7.9,22 7,21.1 7,20V16C7,14.9 7.9,14 9,14M16,3L9,3V4.5H16M19,6H17V8H19M17,11H19V9H17V11Z"/></svg> Deploy to Azure',
-                `<strong>Latest Version:</strong> <span style="color: #10b981; font-weight: bold;">${latestVersion}</span><br><strong>Entities:</strong> ${displayEntities.length}<br><br>This will:<br>1. Regenerate dab-config.json<br>2. Build Docker image<br>3. Push to Azure Container Registry<br>4. Update App Service`,
+                `<strong>Latest Version:</strong> <span style="color: #10b981; font-weight: bold;">${latestVersion}</span><br><strong>Entities:</strong> ${displayEntities.length}<br><br>This will:<br>1. Regenerate dab-config.json<br>2. Build image in Azure (az acr build)<br>3. Update App Service<br>4. Restart &amp; wait for cold start<br>5. Verify the app is LIVE (HTTP 200) before reporting success`,
                 { input: true, defaultValue: latestVersion, placeholder: 'Enter new version (e.g., v19)' }
             );
             
@@ -1265,7 +1285,18 @@
                     body: JSON.stringify({ version: version })
                 });
 
-                // Poll every second for REAL step updates
+                // Surface an immediate failure to even START the job, but do NOT treat
+                // the POST response as "done" - it returns the instant the background
+                // job starts. Completion is driven entirely by the status file below.
+                deployPromise.then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); })
+                    .catch(err => { console.error('Deploy start error:', err); });
+
+                progressFill.classList.remove('deploy-success', 'deploy-fail');
+
+                // Poll the REAL status until the backend reports running === false.
+                // The backend now verifies the live app returns HTTP 200 before it
+                // flips to success, so "done" means genuinely serving - not just restarted.
+                let finished = false;
                 const pollInterval = setInterval(async () => {
                     try {
                         const sr = await fetch(`${API_URL}/deploy/status`);
@@ -1273,47 +1304,86 @@
                         const s = await sr.json();
                         if (s.progress !== undefined) {
                             progressFill.style.width = s.progress + '%';
-                            progressFill.textContent = s.progress + '%';
+                            progressFill.textContent = s.running === false && s.success ? 'LIVE ✓' : s.progress + '%';
                         }
                         if (s.step) {
                             const d = s.detail ? '<br><small style="color:#9ca3af">' + s.detail + '</small>' : '';
-                            progressStatus.innerHTML = '<div class="spinner"></div> [' + (s.time||'') + '] ' + s.step + d;
+                            const icon = s.running === false
+                                ? (s.success ? '✅ ' : '❌ ')
+                                : '<div class="spinner"></div> ';
+                            const color = s.running === false ? (s.success ? '#10b981' : '#ef4444') : '#d1d5db';
+                            progressStatus.innerHTML = icon + '[' + (s.time||'') + '] <strong style="color:' + color + '">' + s.step + '</strong>' + d;
+                        }
+
+                        if (s.running === false && !finished) {
+                            finished = true;
+                            clearInterval(pollInterval);
+                            if (s.success) {
+                                progressFill.classList.add('deploy-success');
+                                launchConfetti();
+                                showToast(`🎉 ${version} is LIVE and verified serving requests!`, 'success');
+                                setTimeout(() => {
+                                    progressContainer.style.display = 'none';
+                                    progressFill.style.width = '0%';
+                                    progressFill.classList.remove('deploy-success');
+                                }, 6000);
+                            } else {
+                                progressFill.classList.add('deploy-fail');
+                                showToast(`❌ ${s.step}${s.detail ? ' — ' + s.detail : ''}`, 'error');
+                                setTimeout(() => {
+                                    progressContainer.style.display = 'none';
+                                    progressFill.style.width = '0%';
+                                    progressFill.classList.remove('deploy-fail');
+                                }, 9000);
+                            }
                         }
                     } catch(e) {}
-                }, 1000);
-
-                const response = await deployPromise;
-                clearInterval(pollInterval);
-                
-                console.log('Response status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                console.log('Response data:', data);
-                
-                if (data.success) {
-                    // Show completion
-                    progressFill.style.width = '100%';
-                    progressFill.textContent = '100%';
-                    progressStatus.innerHTML = '<div class="spinner"></div>Deployment complete!';
-                    
-                    setTimeout(() => {
-                        progressContainer.style.display = 'none';
-                        progressFill.style.width = '0%';
-                        showToast(`✅ Deployment ${version} completed successfully!\nTotal entities deployed: ${displayEntities.length}`, 'success');
-                    }, 2000);
-                } else {
-                    progressContainer.style.display = 'none';
-                    showToast(`❌ ${data.message || 'Deployment failed'}`, 'error');
-                }
+                }, 1500);
             } catch (error) {
                 console.error('Deployment error:', error);
                 progressContainer.style.display = 'none';
                 showToast(`❌ Failed to deploy: ${error.message}`, 'error');
             }
+        }
+
+        // Lightweight vanilla confetti burst for a verified-live deploy (no libs).
+        function launchConfetti() {
+            let c = document.getElementById('confettiCanvas');
+            if (!c) {
+                c = document.createElement('canvas');
+                c.id = 'confettiCanvas';
+                document.body.appendChild(c);
+            }
+            c.width = window.innerWidth; c.height = window.innerHeight;
+            c.style.display = 'block';
+            const ctx = c.getContext('2d');
+            const colors = ['#10b981','#34d399','#3b82f6','#f59e0b','#ef4444','#a78bfa'];
+            const pieces = Array.from({length: 140}, () => ({
+                x: Math.random() * c.width,
+                y: -20 - Math.random() * c.height * 0.3,
+                r: 4 + Math.random() * 6,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                vx: -2 + Math.random() * 4,
+                vy: 2 + Math.random() * 4,
+                rot: Math.random() * Math.PI,
+                vr: -0.2 + Math.random() * 0.4
+            }));
+            const start = performance.now();
+            (function frame(now) {
+                const elapsed = now - start;
+                ctx.clearRect(0, 0, c.width, c.height);
+                pieces.forEach(p => {
+                    p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.rot += p.vr;
+                    ctx.save();
+                    ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = Math.max(0, 1 - elapsed / 2800);
+                    ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r * 1.6);
+                    ctx.restore();
+                });
+                if (elapsed < 2800) requestAnimationFrame(frame);
+                else { ctx.clearRect(0, 0, c.width, c.height); c.style.display = 'none'; }
+            })(start);
         }
 
         // ESC key closes modals and dialogs; Enter confirms dialog

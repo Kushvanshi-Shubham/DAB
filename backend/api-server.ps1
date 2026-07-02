@@ -270,11 +270,51 @@ while ($listener.IsListening) {
                     Write-DeployStatus -Progress 90 -Step "Restarting App Service..." -Detail "az webapp restart"
                     az webapp restart --name $appName --resource-group $resourceGroup 2>&1 | Out-Null
 
-                    Write-DeployStatus -Progress 95 -Step "Updating version tracker..." -Detail "Writing version.txt"
                     Pop-Location
                     $version | Set-Content "$backendDir\version.txt"
 
-                    Write-DeployStatus -Progress 100 -Step "Deployment complete!" -Detail "Version ${version} is live on Azure" -Running $false -Success $true
+                    # Verify the NEW container is ACTUALLY serving before declaring success.
+                    # 'az webapp restart' leaves the OLD container answering 200 for a few
+                    # seconds, so a naive poll gets a FALSE POSITIVE off the old instance.
+                    # Fix: (phase 1) wait until the app is observed DOWN - old instance torn
+                    # down / new one cold - then (phase 2) wait for the new one to return 200.
+                    $firstEntity = $null
+                    try {
+                        $cfg = Get-Content "$backendDir\dab-config.json" -Raw | ConvertFrom-Json
+                        $firstEntity = ($cfg.entities.PSObject.Properties | Select-Object -First 1).Name
+                    } catch {}
+                    if (-not $firstEntity) { $firstEntity = "DY_SUPPLIER_MST" }
+                    $verifyUrl = "https://my-dab-app.azurewebsites.net/api/$firstEntity" + '?$first=1'
+
+                    Start-Sleep -Seconds 15   # let the restart begin taking effect
+
+                    # Phase 1: wait until the app goes DOWN (up to ~90s). If it never does
+                    # (fast/overlapping swap) we proceed anyway - a later 200 is then the new one.
+                    $sawDown = $false
+                    for ($d = 1; $d -le 15; $d++) {
+                        Write-DeployStatus -Progress 92 -Step "Recycling container... (waiting for old instance to stop)" -Detail "check $d/15"
+                        $isUp = $false
+                        try { $isUp = ((Invoke-WebRequest -Uri $verifyUrl -UseBasicParsing -TimeoutSec 15).StatusCode -eq 200) } catch { $isUp = $false }
+                        if (-not $isUp) { $sawDown = $true; break }
+                        Start-Sleep -Seconds 6
+                    }
+
+                    # Phase 2: wait for the NEW container to come UP with HTTP 200 (up to ~180s).
+                    $live = $false
+                    for ($attempt = 1; $attempt -le 30; $attempt++) {
+                        $pct = [math]::Min(99, 93 + $attempt)
+                        Write-DeployStatus -Progress $pct -Step "Waiting for new version to go live... (check $attempt/30)" -Detail "Cold start ~60-90s. Polling $firstEntity for HTTP 200..."
+                        try {
+                            if ((Invoke-WebRequest -Uri $verifyUrl -UseBasicParsing -TimeoutSec 15).StatusCode -eq 200) { $live = $true; break }
+                        } catch {}
+                        Start-Sleep -Seconds 6
+                    }
+                    if ($live) {
+                        $note = if ($sawDown) { "confirmed recycle + HTTP 200" } else { "HTTP 200 (no downtime observed)" }
+                        Write-DeployStatus -Progress 100 -Step "LIVE & VERIFIED - deployment successful!" -Detail "Version ${version} is up and serving requests ($note)" -Running $false -Success $true
+                    } else {
+                        Write-DeployStatus -Progress 100 -Step "Deployed, but app not responding yet" -Detail "Image ${version} was pushed and App Service updated, but the live endpoint hasn't returned 200 after ~4-5 min. It may still be warming up - wait a moment and retest." -Running $false -Failed $true
+                    }
 
                 } catch {
                     Write-DeployStatus -Progress 0 -Step "Deployment failed" -Detail $_.Exception.Message -Running $false -Failed $true
