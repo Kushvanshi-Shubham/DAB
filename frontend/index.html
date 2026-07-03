@@ -1913,14 +1913,15 @@
                 statusSpan.textContent = 'Loading fields...';
                 statusSpan.style.color = '#3b82f6';
                 
-                // Try multiple strategies — some DAB views (especially views without PK) reject $top
-                // Strategy: try $top=1, then plain fetch (take first record from response)
-                // For large tables on Azure, prefer Local base URL for field loading
+                // DAB uses $first (NOT $top - $top returns 400 "Invalid"), so ask for a
+                // single record efficiently. Falling back to a plain fetch pulls the ENTIRE
+                // table and times out on large ones, so keep $first as the primary strategy.
                 let response = null;
                 let lastError = '';
                 const attempts = [
-                    `${baseUrl}?$top=1`,
-                    baseUrl   // fallback — takes first record from full response
+                    `${baseUrl}?$first=1`,
+                    `${baseUrl}?$top=1`,   // legacy fallback (older configs)
+                    baseUrl                // last resort — first record from full response
                 ];
                 
                 for (const url of attempts) {

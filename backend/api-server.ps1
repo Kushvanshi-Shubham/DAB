@@ -235,6 +235,16 @@ while ($listener.IsListening) {
                     Write-DeployStatus -Progress 5  -Step "Regenerating dab-config.json..." -Detail "Building config from entities.json"
                     & .\generate-dab-config.ps1 2>&1 | Out-Null
 
+                    # Best-effort: keep the LOCAL field-loading DAB in sync (container
+                    # dab-app-local on :8090, used by the UI "Load Fields" button). Without
+                    # this it serves a stale config and Load Fields 404s for new entities.
+                    # NON-FATAL - a failure here must never fail the Azure deploy.
+                    try {
+                        Write-DeployStatus -Progress 10 -Step "Refreshing local field-loader (:8090)..." -Detail "Updating dab-app-local with new config"
+                        docker cp "$backendDir\dab-config.json" dab-app-local:/App/dab-config.json 2>&1 | Out-Null
+                        docker restart dab-app-local 2>&1 | Out-Null
+                    } catch {}
+
                     Write-DeployStatus -Progress 15 -Step "Copying files to build directory..." -Detail "Copying dab-config.json, .env, Dockerfile"
                     $buildDir = "d:\DAB_Project\DAB Project\_dab_build\AzureService_SRM"
                     $acrServer = "arsv2acr.azurecr.io"
