@@ -24,6 +24,40 @@ function Manage-Backups {
     }
 }
 
+# --- Direct SQL access (replaces the local Docker DAB on :8090 for listing tables/fields) ---
+Add-Type -AssemblyName System.Data -ErrorAction SilentlyContinue
+$DbServer   = "192.168.151.28"
+$DbDatabase = "DataV2"
+$DbUser     = "datalake"
+$DbPassword = "lQn@t-rm#W*NG7"
+
+function Invoke-DabSql {
+    param([string]$Query, [hashtable]$Params = @{})
+    $connStr = "Server=$DbServer,1433;Database=$DbDatabase;User Id=$DbUser;Password=$DbPassword;TrustServerCertificate=true;Encrypt=false;"
+    $conn = New-Object System.Data.SqlClient.SqlConnection $connStr
+    $rows = New-Object System.Collections.ArrayList
+    try {
+        $conn.Open()
+        $cmd = $conn.CreateCommand()
+        $cmd.CommandText = $Query
+        $cmd.CommandTimeout = 30
+        foreach ($k in $Params.Keys) { [void]$cmd.Parameters.AddWithValue($k, $Params[$k]) }
+        $reader = $cmd.ExecuteReader()
+        while ($reader.Read()) {
+            $row = [ordered]@{}
+            for ($i = 0; $i -lt $reader.FieldCount; $i++) {
+                $val = $reader.GetValue($i)
+                $row[$reader.GetName($i)] = if ($val -is [System.DBNull]) { $null } else { $val }
+            }
+            [void]$rows.Add([pscustomobject]$row)
+        }
+        $reader.Close()
+    } finally {
+        $conn.Dispose()
+    }
+    return ,$rows.ToArray()
+}
+
 Write-Host "Deployment Manager API Server" -ForegroundColor Cyan
 Write-Host "Starting on port $Port..." -ForegroundColor Yellow
 
@@ -87,25 +121,59 @@ while ($listener.IsListening) {
         }
         elseif ($url -eq "/api/tables" -and $method -eq "GET") {
             try {
-                # Fetch all rows using pagination to avoid DAB default 100-row limit
-                $allTables = @()
-                $nextUrl = "http://localhost:8090/api/API_Master_AKA?`$orderby=ID asc"
-                do {
-                    $apiResponse = Invoke-RestMethod -Uri $nextUrl -TimeoutSec 10
-                    $allTables += $apiResponse.value
-                    $nextUrl = $apiResponse.'@nextLink'
-                } while ($nextUrl)
-                $tables = $allTables | Select-Object ID, TABLE_NAME, LOG_DATE
+                # Read the master table registry straight from SQL (no local Docker/:8090 needed)
+                $tables = Invoke-DabSql "SELECT ID, TABLE_NAME, CONVERT(varchar(23), LOG_DATE, 126) AS LOG_DATE FROM dbo.API_Master_AKA ORDER BY ID ASC"
                 $result = @{
                     success = $true
-                    count = $tables.Count
+                    count = @($tables).Count
                     tables = $tables
                 }
                 $responseText = $result | ConvertTo-Json -Depth 10 -Compress
             } catch {
                 $result = @{
                     success = $false
-                    message = "Failed to fetch tables. Is Docker running?"
+                    message = "Failed to fetch tables from SQL: $($_.Exception.Message)"
+                }
+                $responseText = $result | ConvertTo-Json -Compress
+                $statusCode = 500
+            }
+        }
+        elseif ($url -eq "/api/fields" -and $method -eq "GET") {
+            try {
+                # Column names straight from SQL — replaces the local Docker DAB "Load Fields" source.
+                $entity = [string]$request.QueryString["entity"]
+                if ([string]::IsNullOrWhiteSpace($entity)) { $entity = [string]$request.QueryString["table"] }
+                if ([string]::IsNullOrWhiteSpace($entity)) { throw "Missing 'entity' query parameter" }
+
+                # Resolve entity name -> real dbo table via entities.json (name can differ from table,
+                # e.g. Product_Master -> VW_PRODUCT_MST_NEW). Use an explicit loop + [string] casts so
+                # the SQL parameter is always a scalar string, never an array.
+                $tableName = $entity
+                try {
+                    $allEnts = Get-Content $entitiesFile -Raw | ConvertFrom-Json
+                    foreach ($e in $allEnts) {
+                        if ($e.name -eq $entity) {
+                            $tableName = ([string]$e.'real-name') -replace '\[dbo\]\.', '' -replace '[\[\]]', '' -replace '^dbo\.', ''
+                            break
+                        }
+                    }
+                } catch {}
+                $tableName = ([string]$tableName).Trim()
+
+                $cols = Invoke-DabSql "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA='dbo' AND TABLE_NAME=@t ORDER BY ORDINAL_POSITION" @{ '@t' = $tableName }
+                $fields = @($cols | ForEach-Object { $_.COLUMN_NAME })
+                if ($fields.Count -eq 0) { throw "No columns found for '$tableName' (not a dbo table/view?)" }
+                $result = @{
+                    success = $true
+                    count = $fields.Count
+                    table = $tableName
+                    fields = $fields
+                }
+                $responseText = $result | ConvertTo-Json -Depth 10 -Compress
+            } catch {
+                $result = @{
+                    success = $false
+                    message = "Failed to load fields: $($_.Exception.Message)"
                 }
                 $responseText = $result | ConvertTo-Json -Compress
                 $statusCode = 500
@@ -235,15 +303,8 @@ while ($listener.IsListening) {
                     Write-DeployStatus -Progress 5  -Step "Regenerating dab-config.json..." -Detail "Building config from entities.json"
                     & .\generate-dab-config.ps1 2>&1 | Out-Null
 
-                    # Best-effort: keep the LOCAL field-loading DAB in sync (container
-                    # dab-app-local on :8090, used by the UI "Load Fields" button). Without
-                    # this it serves a stale config and Load Fields 404s for new entities.
-                    # NON-FATAL - a failure here must never fail the Azure deploy.
-                    try {
-                        Write-DeployStatus -Progress 10 -Step "Refreshing local field-loader (:8090)..." -Detail "Updating dab-app-local with new config"
-                        docker cp "$backendDir\dab-config.json" dab-app-local:/App/dab-config.json 2>&1 | Out-Null
-                        docker restart dab-app-local 2>&1 | Out-Null
-                    } catch {}
+                    # (Load Fields now reads columns straight from SQL via /api/fields, so the
+                    # old local Docker field-loader on :8090 is no longer synced or required here.)
 
                     Write-DeployStatus -Progress 15 -Step "Copying files to build directory..." -Detail "Copying dab-config.json, .env, Dockerfile"
                     $buildDir = "d:\DAB_Project\DAB Project\_dab_build\AzureService_SRM"

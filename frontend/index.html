@@ -1636,7 +1636,7 @@
                         <div style="margin-bottom: 16px;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
                                 <span style="color: #d1d5db; font-size: 13px; font-weight: 600;">&#128295; Filter Builder</span>
-                                <button onclick="loadFieldNames(${opIndex}, getLocalUrl('${entity}'))" class="btn-info" style="padding: 5px 12px; font-size: 12px;">
+                                <button onclick="loadFieldNames(${opIndex}, getFieldsUrl('${entity}'))" class="btn-info" style="padding: 5px 12px; font-size: 12px;">
                                     Load Fields
                                 </button>
                                 <span id="fieldStatus_${opIndex}" style="color: #6b7280; font-size: 12px;"></span>
@@ -1904,6 +1904,11 @@
             return `http://${window.location.hostname}:8090/api/${entityName}`;
         }
 
+        // Load Fields now reads column names from SQL via the manager API (no Docker needed)
+        function getFieldsUrl(entityName) {
+            return `${API_URL}/fields?entity=${encodeURIComponent(entityName)}`;
+        }
+
         async function loadFieldNames(index, baseUrl) {
             const statusSpan = document.getElementById(`fieldStatus_${index}`);
             const fieldSelect = document.getElementById(`filterField_${index}`);
@@ -1912,7 +1917,27 @@
             try {
                 statusSpan.textContent = 'Loading fields...';
                 statusSpan.style.color = '#3b82f6';
-                
+
+                // SQL-backed fields endpoint returns { success, fields:[...] } directly (no Docker).
+                if (baseUrl.includes('/fields?') || baseUrl.includes('/fields&')) {
+                    const r = await fetch(baseUrl);
+                    const data = await r.json();
+                    if (!r.ok || !data.success) throw new Error(data.message || `HTTP ${r.status}`);
+                    let fields = (data.fields || []).slice();
+                    if (fields.length === 0) throw new Error('No fields found for this table.');
+                    fields.sort();
+                    fieldSelect.innerHTML = '<option value="">Select a field...</option>';
+                    orderBySelect.innerHTML = '<option value="">Order by field...</option>';
+                    fields.forEach(field => {
+                        const o1 = document.createElement('option'); o1.value = field; o1.textContent = field; fieldSelect.appendChild(o1);
+                        const o2 = document.createElement('option'); o2.value = field; o2.textContent = field; orderBySelect.appendChild(o2);
+                    });
+                    statusSpan.textContent = `✓ ${fields.length} fields loaded`;
+                    statusSpan.style.color = '#10b981';
+                    showToast(`Loaded ${fields.length} fields from SQL`, 'success');
+                    return;
+                }
+
                 // DAB uses $first (NOT $top - $top returns 400 "Invalid"), so ask for a
                 // single record efficiently. Falling back to a plain fetch pulls the ENTIRE
                 // table and times out on large ones, so keep $first as the primary strategy.
