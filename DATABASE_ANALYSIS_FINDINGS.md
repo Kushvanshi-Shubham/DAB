@@ -94,6 +94,16 @@ dependency on the ETL. (Tie it to the ETL instead only if a 24h worst-case windo
 unacceptable — then call `az webapp restart --name my-dab-app --resource-group dab-rg`
 as that job's final step.)
 
+> **REGISTERED & VERIFIED 2026-08-18.** Scheduled task `DAB_Schema_Refresh_Restart`
+> is live on VM `192.168.151.45` (daily 02:30), running `C:\DAB_ops\restart-dab.ps1`
+> as the local-admin SID (LogonType=Password, so `az`'s cached login is available).
+> Test run confirmed: restart → wait 120s → `ROI_TREND_DATA_AKA` HTTP 200. It was
+> created via `schtasks /create /xml` with the principal identified **by SID** because
+> the VM is domain-joined (`v2rd.com`) and remote `/ru VM-HRMS\Administrator` /
+> `.\Administrator` both fail "No mapping between account names and security IDs".
+> The live copy sits at the no-space path `C:\DAB_ops\` (schtasks `/tr` can't handle
+> the space in "DAB Project"); the `backend/` copies here are the source-of-record.
+
 ### Option B (most robust API contract): expose a stable-alias view
 Keep the wide table for the ETL, but point the DAB entity at a view whose column
 names **never change** (`M00_… = newest month, M18_… = oldest`). DAB's exposed schema
